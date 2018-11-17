@@ -2,12 +2,12 @@ import { lift } from '@grammarly/focal'
 import cc from 'classcat'
 import * as React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import { ItemConfig } from '../../overlay-configs/ItemConfig'
 import { actionsItems } from '../../_generic/actions'
 import { IItem } from '../../_generic/types/common'
 import { Btn } from '../../_generic/ui/Btn'
-import { ItemConfig } from '../../overlay-configs/ItemConfig'
-import { getItemByIndex } from '../state'
 import { Overlay } from '../../_generic/ui/Overlay'
+import { getItemByIndex } from '../state'
 const $ = require('./style.scss')
 
 type TProps = {
@@ -35,7 +35,11 @@ export const Item = lift(({ index, item }: TProps) => {
 						position={['left', 'bottom', 'top', 'right']}
 						content={() => <ItemConfig item$={item$} />}
 					>
-						<div className={$.name} onMouseDown={() => isEditorOpen$.modify((v) => !v)}>
+						<div
+							className={$.name}
+							onMouseDown={actionsItems.closeAllEditors}
+							onClick={() => isEditorOpen$.modify((v) => !v)}
+						>
 							{name}
 						</div>
 					</Overlay>

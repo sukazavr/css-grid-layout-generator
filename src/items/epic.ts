@@ -48,3 +48,16 @@ actionsItems.reorder.$.subscribe(({ currentIndex, nextIndex }) => {
 		}
 	})
 })
+
+actionsItems.closeAllEditors.$.subscribe(() => {
+	items$.modify((items) => {
+		let isDirty = false
+		const nextItems = items.map((item) => {
+			if (!isDirty && item.isEditorOpen) {
+				isDirty = true
+			}
+			return item.isEditorOpen ? { ...item, isEditorOpen: false } : item
+		})
+		return isDirty ? nextItems : items
+	})
+})

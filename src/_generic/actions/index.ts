@@ -31,6 +31,7 @@ export const actionsItems = ga('items', {
 	reorder: ca<{ currentIndex: number; nextIndex: number }>(),
 	highlight: ca<IItem, IItem, () => void>((R, item) => () => R(item)),
 	dropHighlight: ca(),
+	closeAllEditors: ca(),
 })
 
 export const actionsAreaSelector = ga('area-selector', {
