@@ -69,13 +69,17 @@ p + p {
 	align-self: flex-start;
 }
 
+.ghLink {
+	line-height: 0;
+	margin-left: auto;
+}
+
 .gh {
 	@extend %tappable;
 	width: 2em;
 	height: 2em;
 	padding: 0.8em;
 	fill: #4c4a56;
-	margin-left: auto;
 	transition-duration: 120ms;
 	transition-property: fill;
 	&:hover {
