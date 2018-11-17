@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="canonical" href="https://css-grid-layout-generator.pw/" />
+		<title>CSS Grid Layout Generator</title>
+		<meta
+			name="keywords"
+			content="css grid, layout, generator, tool, user interface, web-dev, responsive, area, div, maker, creator, pattern, system, template, layoutit, online css grid, flex"
+		/>
+		<meta
+			name="description"
+			content="The Quickest & Easiest Way To Build Complex CSS Grid Layouts"
+		/>
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://css-grid-layout-generator.pw/" />
+		<meta
+			property="og:title"
+			content="The Quickest & Easiest Way To Build Complex CSS Grid Layouts"
+		/>
+		<meta property="og:description" content="Click-Click And Layout Code Is Ready To Use!" />
+		<meta property="og:image" content="https://css-grid-layout-generator.pw/og-image.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://css-grid-layout-generator.pw/" />
+		<meta
+			property="twitter:title"
+			content="The Quickest & Easiest Way To Build Complex CSS Grid Layouts"
+		/>
+		<meta property="twitter:description" content="Click-Click And Layout Code Is Ready To Use!" />
+		<meta property="twitter:image" content="https://css-grid-layout-generator.pw/og-image.png" />
+
+		<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#242424" />
+		<meta name="msapplication-TileColor" content="#242424" />
+		<meta name="theme-color" content="#242424" />
+
+		<style type="text/css">
+			html {
+				display: flex;
+				height: 100vh;
+				margin: 0;
+			}
+
+			body {
+				margin: 0;
+				padding: 10px;
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+				font-family: Roboto, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+				font-weight: 400;
+				font-size: 14px;
+				background: #242424;
+				color: #f4f4f4;
+				overflow: hidden;
+			}
+
+			#root {
+				display: flex;
+				flex-grow: 1;
+			}
+
+			.loading {
+				align-self: center;
+				margin: 0 auto;
+				font-size: 1.6em;
+			}
+
+			.blinded {
+				pointer-events: none;
+				opacity: 0.3;
+			}
+		</style>
+
+		<% if (process.env.NODE_ENV === 'production'){ %>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129342832-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || []
+			function gtag() {
+				dataLayer.push(arguments)
+			}
+			gtag('js', new Date())
+			gtag('config', 'UA-129342832-1')
+		</script>
+		<% } %>
+	</head>
+
+	<body>
+		<noscript>
+			<h1>JavaScript is disabled</h1>
+			<p>The app can't work without JS, pls, enable the JS and refresh the page.</p>
+		</noscript>
+		<div id="root"><div class="loading">🔥 App is loading...</div></div>
+	</body>
+</html>

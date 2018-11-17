@@ -1,0 +1,32 @@
+.item {
+	display: flex;
+	user-select: none;
+	border-radius: 0.2em;
+	transition-duration: 120ms;
+	transition-property: background;
+
+	.name {
+		flex-grow: 1;
+		padding: 1em;
+	}
+
+	.ctrl {
+		flex-shrink: 0;
+		opacity: 0;
+		transition-duration: 120ms;
+		transition-property: opacity;
+	}
+
+	&:hover {
+		background: rgba(226, 227, 232, 0.17);
+		.ctrl {
+			opacity: 1;
+		}
+	}
+
+	&.dragging {
+		background: #fff;
+		color: #2f2f2f;
+		box-shadow: 0 0 10px #000;
+	}
+}

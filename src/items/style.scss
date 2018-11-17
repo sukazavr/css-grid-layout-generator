@@ -1,0 +1,16 @@
+@import 'utils';
+
+.container {
+	display: flex;
+	flex-direction: column;
+	border-radius: 0.4em;
+	border: 1px solid #6a6586;
+	background: #4c4a56;
+	padding: 0.2em;
+}
+
+.list {
+	overflow-y: auto;
+	min-height: 10em;
+	margin-top: 0.2em;
+}

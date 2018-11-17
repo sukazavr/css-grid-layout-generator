@@ -1,0 +1,42 @@
+.unit {
+	display: grid;
+	background: #e2e3e8;
+	grid-auto-rows: 1fr;
+	grid-template-columns: 1fr 1fr;
+	transition-duration: 120ms;
+	transition-property: background;
+	&.removeCol,
+	&.removeRow {
+		background: #ffc3ab;
+	}
+	> div {
+		display: flex;
+	}
+	svg {
+		fill: #999;
+		transition-duration: 120ms;
+		transition-property: fill;
+	}
+	button,
+	button:disabled {
+		opacity: 0;
+		transition-duration: 120ms;
+		transition-property: opacity;
+	}
+	button:hover svg {
+		fill: #444;
+	}
+	&:hover {
+		button:not(:disabled) {
+			opacity: 1;
+		}
+	}
+}
+
+.highlighter {
+	grid-area: 1 / 1 / 1 / 1;
+	pointer-events: none;
+	opacity: 0;
+	transition-duration: 120ms;
+	transition-property: opacity;
+}

@@ -1,0 +1,20 @@
+@import 'utils';
+
+.unit {
+	@extend %tappable;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1em;
+	background: #e2e3e8;
+
+	&.selected {
+		background: #85d1ff;
+	}
+}
+
+.label {
+	color: #444;
+	padding: 1em;
+	font-weight: 700;
+}

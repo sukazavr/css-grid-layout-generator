@@ -1,0 +1,19 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["es6", "esnext", "dom"],
+    "jsx": "react",
+    "allowJs": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "sourceMap": false,
+    "strictFunctionTypes": true,
+    "typeRoots": ["node_modules/@types", "src/_generic/types/modules"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "css-grid-layout-generator",
+    "staging": "css-grid-layout-generator",
+    "production": "css-grid-layout-generator"
+  }
+}

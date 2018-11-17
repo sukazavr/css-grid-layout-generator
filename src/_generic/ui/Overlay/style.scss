@@ -1,0 +1,30 @@
+.overlay {
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	background: #293742;
+	border-radius: 0.6em;
+	border: 2px solid #85afb8;
+}
+
+.group {
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	background: rgba(76, 74, 86, 0.5);
+	border-radius: 0.5em;
+}
+
+.split {
+	display: flex;
+	> div {
+		flex: 1 1 0;
+	}
+	> div + div {
+		margin-left: 2em;
+	}
+}
+
+.space {
+	height: 1em;
+}

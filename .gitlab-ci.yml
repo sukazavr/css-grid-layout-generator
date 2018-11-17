@@ -1,0 +1,64 @@
+.deploy: &deploy
+  stage: deploy
+  image: evenbit/firebase
+  script:
+    - firebase use $CI_ENVIRONMENT_SLUG --token $FIREBASE_DEPLOY_KEY
+    - firebase deploy --non-interactive --token $FIREBASE_DEPLOY_KEY -m "Pipe $CI_PIPELINE_ID Build $CI_BUILD_ID"
+
+.ex: &except-ci
+  only:
+    refs:
+      - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^chore\(release\):.*/
+
+stages:
+  - version
+  - build
+  - deploy
+
+version:
+  stage: version
+  image: node:10
+  script:
+    - git config --global user.name "Runner $CI_RUNNER_DESCRIPTION"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - npm i -g standard-version
+    - standard-version --no-verify
+    - git push --follow-tags $CI_TOKENIZED_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME
+  only:
+    - master
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /^chore\(release\):.*/
+
+build:
+  <<: *except-ci
+  stage: build
+  image: node:10
+  script:
+    - npm install
+    - npm run build:app
+  cache:
+    key: '$CI_BUILD_REPO'
+    paths:
+      - node_modules/
+  artifacts:
+    expire_in: 24 hrs
+    paths:
+      - dist/
+
+deploy_staging:
+  <<: *deploy
+  <<: *except-ci
+  environment:
+    name: staging
+    url: https://css-grid-layout-generator.pw/
+
+deploy_production:
+  <<: *deploy
+  <<: *except-ci
+  when: manual
+  environment:
+    name: production
+    url: https://css-grid-layout-generator.pw/

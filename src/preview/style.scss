@@ -1,0 +1,21 @@
+.preview {
+	flex-grow: 1;
+	&.flexed {
+		display: flex;
+	}
+}
+
+.container {
+	flex-grow: 1;
+}
+
+.guide {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.item {
+	transition-property: all;
+	transition-duration: 120ms;
+	word-break: break-all;
+	color: #000;
+}

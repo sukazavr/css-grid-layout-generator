@@ -1,0 +1,18 @@
+@import 'utils';
+
+.container {
+	display: grid;
+	grid-template-columns: repeat(9, 2em);
+	grid-template-rows: 2em 2em;
+	grid-gap: 0.4em 0.4em;
+	justify-content: space-between;
+}
+
+.color {
+	@extend %tappable;
+	background: transparent;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	transition: box-shadow 100ms ease 0s;
+}

@@ -1,0 +1,66 @@
+@import 'utils';
+
+.container {
+	flex-grow: 1;
+	display: grid;
+	grid-auto-rows: 1fr;
+	grid-auto-columns: 1fr;
+	grid-gap: 2px;
+	grid-template-columns: 3em;
+	grid-template-rows: 3em;
+}
+
+.row {
+	grid-row-start: 1;
+	border-radius: 0 0 0.2em 0.2em;
+}
+
+.col {
+	grid-column-start: 1;
+	border-radius: 0 0.2em 0.2em 0;
+	span {
+		transform: rotate(-90deg);
+	}
+}
+
+.config {
+	grid-row-start: 1;
+	grid-column-start: 1;
+	border-radius: 0 0 0.2em 0;
+}
+
+.row,
+.col,
+.config {
+	@extend %tappable;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #4c4a56;
+	overflow: hidden;
+	span {
+		color: #a1c7d0;
+		font-size: 1.1em;
+		font-weight: 700;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+    overflow: hidden;
+		transition-duration: 200ms;
+		transition-property: color;
+	}
+	svg {
+		width: 2em;
+		height: 2em;
+		fill: #8ebec7;
+		transition-duration: 200ms;
+		transition-property: fill;
+	}
+	&:hover {
+		span {
+			color: #ff9b70;
+		}
+		svg {
+			fill: #ff9b70;
+		}
+	}
+}

@@ -1,0 +1,104 @@
+@import 'utils';
+
+input,
+textarea,
+select,
+button {
+	font-family: inherit;
+	font-weight: inherit;
+}
+p + p {
+	margin-top: 0;
+}
+*:focus {
+	outline: none;
+}
+
+.shell {
+	flex-grow: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 18em;
+	grid-template-rows: minmax(0, 1fr);
+	grid-column-gap: 1em;
+
+	> div {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.title {
+	background: #4c4a56;
+	padding: 0.4em 0.6em;
+	font-size: 0.9em;
+	font-weight: 700;
+	align-self: flex-start;
+}
+
+.doneBtn {
+	@extend %tappable;
+	background: #009a00;
+	padding: 0.4em 0.6em;
+	font-size: 0.9em;
+	font-weight: 700;
+	box-shadow: inset 0 0 0 1px #002f0a, inset 0px 1px 0 1px #89f39f;
+}
+
+.content {
+	flex-grow: 1;
+	display: flex;
+	background: #333;
+	overflow: auto;
+}
+
+.head {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+}
+
+.logo {
+	width: 3em;
+	height: 3em;
+	fill: #dc5656;
+	transform: rotate(45deg);
+}
+
+.ver {
+	font-size: 0.6em;
+	align-self: flex-start;
+}
+
+.gh {
+	@extend %tappable;
+	width: 2em;
+	height: 2em;
+	padding: 0.8em;
+	fill: #4c4a56;
+	margin-left: auto;
+	transition-duration: 120ms;
+	transition-property: fill;
+	&:hover {
+		fill: #ff9b70;
+	}
+}
+
+.code {
+	margin-top: 0.8em;
+	flex-shrink: 0;
+	font-size: 1.2em;
+}
+
+.items {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	margin-top: 1em;
+}
+
+.footer {
+	flex-shrink: 0;
+	margin-top: 1em;
+	text-align: right;
+	color: #dc5656;
+}
