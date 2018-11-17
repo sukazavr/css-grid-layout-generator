@@ -1,30 +1,6 @@
-# CSS Grid Layout Generator
-
-> The Quickest & Easiest Way To Build Complex CSS Grid Layouts
-
-![Gif Demo](https://gitlab.com/sukazavr/css-grid-layout-generator/raw/master/assets/demo.gif)
-
-## [https://css-grid-layout-generator.pw/](https://css-grid-layout-generator.pw/)
-
-## How to commit
-
-```
-npx git-cz
-```
-
-## Author
-
-**Dmitrii Bykov**
-
--  [github/sukazavr](https://github.com/sukazavr)
--  [telegram/sukazavr](https://telegram.me/sukazavr)
--  [linkedin/sukazavr](https://www.linkedin.com/in/sukazavr)
-
-## License
-
 MIT License
 
-Copyright © 2018, [Dmitrii Bykov](https://sukazavr.ru).
+Copyright (c) 2018 Dmitrii Bykov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
