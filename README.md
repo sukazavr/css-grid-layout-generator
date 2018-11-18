@@ -6,6 +6,35 @@
 
 ## [https://css-grid-layout-generator.pw/](https://css-grid-layout-generator.pw/)
 
+## Roadmap
+- Soon
+	- [ ] Auto-generated grid tracks (aka implicit grid tracks)
+	- [ ] repeat() notation for columns and rows
+	- [ ] Drag & Drop for columns and rows
+- Export Code
+	- [ ] Syntax highlight
+	- [ ] Button "Create CodePen"
+	- [ ] Save and restore grid settings feature
+	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
+- Grid Items
+	- [ ] Opacity adjustment
+	- [ ] Support negative start/end lines
+	- [ ] Show details as CSS-rules in a tooltip
+- Area Editor
+	- [ ] Option to give names for areas
+	- [ ] Highlight potential area during selection area
+	- [ ] Overlay Guides As Items (z-index) during editor is hovered
+- Big Features
+	- [ ] Conditional grid settings via CSS Media Queries
+	- [ ] Nested Grids
+- Other
+	- [ ] Tips everywhere as (?) button
+	- [ ] Solution for small screen devices
+	- [ ] Support for touch screen devices
+	- [ ] Persist grid settings (Local Storage)
+	- [ ] Button "Reset Grid Settings"
+	- [ ] Show preview in a new window
+
 ## How to commit
 
 ```

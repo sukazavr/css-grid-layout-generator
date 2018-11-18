@@ -1,10 +1,9 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "git.ignoreLimitWarning": true,
-  "cSpell.words": [
-    "Droppable",
-    "grammarly",
-    "intermodal"
-  ],
-  "editor.formatOnSave": true
+  "cSpell.words": ["Droppable", "grammarly"],
+  "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
 }
