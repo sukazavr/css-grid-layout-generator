@@ -40,7 +40,7 @@ const isGridConfigOpen$ = grid$.lens('isEditorOpen')
 const unitTitle = ({ value, min, max, minmax, repeat }: IUnit) => {
 	let title = minmax ? `${min}→${max}` : value
 	if (repeat) {
-		title = `${title} ×${repeat}`
+		title = `${repeat}${typeof repeat === 'number' ? '×' : ''} ${title}`
 	}
 	return title
 }

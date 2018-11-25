@@ -8,6 +8,7 @@ import { GridUnitSize } from './GridUnitSize'
 import { actionsGrid } from '../_generic/actions'
 import { Btn } from '../_generic/ui/Btn'
 import { HLLeave, HLAddRow, HLAddCol, HLRemoveRow, HLRemoveCol } from '../grid/Highlighter'
+import { GridUnitRepeat } from './GridUnitRepeat'
 const $ = require('../_generic/ui/Overlay/style.scss')
 
 type TProps = {
@@ -95,39 +96,10 @@ export const UnitConfig = ({ unit$, row, start, end }: TProps) => {
 				</MapElement>
 			</div>
 			<div className={$.space} />
-			<MapElement stream={repeat$}>
-				{(v) => {
-					const isActive = v > 1
-					return (
-						<div className={$.group}>
-							{isActive && (
-								<>
-									<NumericInput
-										buttonPosition="left"
-										min={0}
-										majorStepSize={1}
-										minorStepSize={1}
-										value={v}
-										onValueChange={(nextNum) => repeat$.set(nextNum > 1 ? nextNum : 0)}
-										selectAllOnFocus={true}
-										clampValueOnBlur={true}
-										style={{ width: '2em' }}
-									/>
-									<div className={$.space} />
-								</>
-							)}
-							<Switch
-								checked={isActive}
-								label="repeat()"
-								onChange={(event) => {
-									const val = (event.target as HTMLInputElement).checked
-									repeat$.set(val ? 2 : 0)
-								}}
-							/>
-						</div>
-					)
-				}}
-			</MapElement>
+			<div className={$.group}>
+				<Label>repeat()</Label>
+				<GridUnitRepeat v$={repeat$} />
+			</div>
 		</div>
 	)
 }

@@ -3,11 +3,14 @@ import { defaultUnit, IUnit, IGrid, defaultGrid } from '../_generic/types/common
 
 const packTrackKeys = (v: IUnit[]) => {
 	let prev = 2
-	return v.map(({ repeat }, index) => [index, prev, (prev = prev + (repeat || 1))].join('_'))
+	return v.map(({ repeat }, index) =>
+		[index, prev, (prev = prev + (typeof repeat === 'string' ? 1 : repeat || 1))].join('_')
+	)
 }
 export const parseTrackKey = (trackKey: string) =>
 	trackKey.split('_').map(Number) as [number, number, number]
-const calcLength = (v: IUnit[]) => v.reduce((sum, { repeat }) => sum + (repeat || 1), 0)
+const calcLength = (v: IUnit[]) =>
+	v.reduce((sum, { repeat }) => sum + (typeof repeat === 'string' ? 1 : repeat || 1), 0)
 
 export const cols$ = Atom.create<IUnit[]>([
 	{ ...defaultUnit, id: 'p-col-1', value: '1fr' },

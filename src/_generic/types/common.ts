@@ -36,7 +36,7 @@ export interface IUnit {
 	min: string
 	max: string
 	minmax: boolean
-	repeat: number
+	repeat: string | number
 	isEditorOpen: boolean
 }
 
