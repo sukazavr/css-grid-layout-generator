@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.0.1...v1.1.0) (2018-11-25)
+
+
+### Features
+
+* add auto-fill and auto-fit to repeat ([7cb2c3a](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/7cb2c3a))
+* control implicit grid tracks ([9e35b10](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/9e35b10))
+* repeat() notation for columns and rows ([fcd9759](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/fcd9759))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.0.0...v1.0.1) (2018-11-17)
 
