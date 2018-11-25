@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.1.0...v1.1.1) (2018-11-25)
+
+
+### Bug Fixes
+
+* remove getColByIndex ([f28361a](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/f28361a))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.0.1...v1.1.0) (2018-11-25)
 
