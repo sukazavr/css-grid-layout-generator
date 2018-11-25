@@ -16,9 +16,10 @@ type TProps = {
 	row?: true
 	start: number
 	end: number
+	repeat: boolean
 }
 
-export const UnitConfig = ({ unit$, row, start, end }: TProps) => {
+export const UnitConfig = ({ unit$, row, start, end, repeat }: TProps) => {
 	const value$ = unit$.lens('value')
 	const min$ = unit$.lens('min')
 	const max$ = unit$.lens('max')
@@ -95,11 +96,15 @@ export const UnitConfig = ({ unit$, row, start, end }: TProps) => {
 					)}
 				</MapElement>
 			</div>
-			<div className={$.space} />
-			<div className={$.group}>
-				<Label>repeat()</Label>
-				<GridUnitRepeat v$={repeat$} />
-			</div>
+			{repeat && (
+				<>
+					<div className={$.space} />
+					<div className={$.group}>
+						<Label>repeat()</Label>
+						<GridUnitRepeat v$={repeat$} />
+					</div>
+				</>
+			)}
 		</div>
 	)
 }

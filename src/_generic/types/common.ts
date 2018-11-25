@@ -1,6 +1,6 @@
 import { Atom } from '@grammarly/focal'
 
-export interface IGrid {
+export interface IGridSettings {
 	isInline: boolean
 	width: string | null
 	height: string | null
@@ -10,12 +10,13 @@ export interface IGrid {
 	alignItems: string | null
 	justifyContent: string | null
 	alignContent: string | null
+	autoFlow: string | null
 	isGrow: boolean
 	isGuided: boolean
 	isEditorOpen: boolean
 }
 
-export const defaultGrid: IGrid = {
+export const defaultGridSettings: IGridSettings = {
 	isInline: false,
 	width: null,
 	height: null,
@@ -25,9 +26,15 @@ export const defaultGrid: IGrid = {
 	alignItems: null,
 	justifyContent: null,
 	alignContent: null,
+	autoFlow: null,
 	isGrow: true,
 	isGuided: true,
 	isEditorOpen: false,
+}
+
+export interface IGrid {
+	cols: IUnit[]
+	rows: IUnit[]
 }
 
 export interface IUnit {

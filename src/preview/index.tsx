@@ -1,9 +1,9 @@
-import { Atom, classes, F, lift, reactiveList } from '@grammarly/focal'
+import { classes, F, lift, reactiveList } from '@grammarly/focal'
 import cc from 'classcat'
 import * as React from 'react'
 import { of } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
-import { colsLength$, grid$, rowsLength$ } from '../grid/state'
+import { calcLength, explicitGrid$, gridSettings$ } from '../grid/state'
 import { itemsReversed$ } from '../items/state'
 import { css$, cssHighlighter$ } from './state'
 const $ = require('./style.scss')
@@ -13,18 +13,20 @@ const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string
 ))
 
 const DIV = ':'
-const guides$ = Atom.combine(colsLength$, rowsLength$, (cols, rows) => {
+const guides$ = explicitGrid$.view(({ cols, rows }) => {
+	const colsLength = calcLength(cols)
+	const rowsLength = calcLength(rows)
 	const res: string[] = []
-	for (let colIndex = 0; colIndex < cols; colIndex++) {
-		for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+	for (let colIndex = 0; colIndex < colsLength; colIndex++) {
+		for (let rowIndex = 0; rowIndex < rowsLength; rowIndex++) {
 			res.push(colIndex + DIV + rowIndex)
 		}
 	}
 	return res
 })
 
-const isGrowClass$ = grid$.view(({ isGrow }) => isGrow && ($.flexed as string))
-const renderGuides$ = grid$.view('isGuided').pipe(
+const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && ($.flexed as string))
+const renderGuides$ = gridSettings$.view('isGuided').pipe(
 	switchMap<boolean, JSX.Element>((isGuided) => {
 		if (isGuided) {
 			return reactiveList(guides$, (st) => {

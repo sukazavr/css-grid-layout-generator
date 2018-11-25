@@ -5,7 +5,7 @@ import { defaultItem, IItem } from '../_generic/types/common'
 const makeArray = (v: any[]) => v.map((_, index) => index)
 
 export const items$ = Atom.create<IItem[]>([
-	{
+	/* {
 		id: 'header',
 		name: 'header',
 		characters: '',
@@ -30,7 +30,7 @@ export const items$ = Atom.create<IItem[]>([
 		rowEnd: '4',
 		justifySelf: null,
 		alignSelf: null,
-	},
+	}, */
 ])
 
 export const itemsIDs$ = items$.view(makeArray)

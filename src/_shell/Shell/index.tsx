@@ -1,4 +1,4 @@
-import { classes, F } from '@grammarly/focal'
+import { Atom, classes, F } from '@grammarly/focal'
 import * as React from 'react'
 import {
 	blindByAreaSelector$,
@@ -7,12 +7,19 @@ import {
 } from '../../area-selector/state'
 import { GetTheCode } from '../../get-the-code'
 import { Grid } from '../../grid'
+import { explicitGrid$, implicitGrid$ } from '../../grid/state'
 import { Items } from '../../items'
 import { Preview } from '../../preview'
 import { actionsAreaSelector } from '../../_generic/actions'
 import { ShowIf } from '../../_generic/ui/ShowIf'
-import { WorkSpace } from '../WorkSpace'
 const $ = require('./style.scss')
+
+enum EGridPanel {
+	Explicit,
+	Implicit,
+}
+
+const gridPanel$ = Atom.create<EGridPanel>(EGridPanel.Explicit)
 
 // tslint:disable:max-line-length
 export const Shell = () => {
@@ -37,10 +44,36 @@ export const Shell = () => {
 					)}
 				</ShowIf>
 				<ShowIf value={isActiveAreaSelector$} eq={false}>
-					{() => <div className={$.title}>Grid Container</div>}
+					{() => (
+						<div style={{ display: 'flex' }}>
+							<F.div
+								onClick={() => gridPanel$.set(EGridPanel.Explicit)}
+								{...classes(
+									$.title,
+									gridPanel$.view((v) => v !== EGridPanel.Explicit && $.tabBtn)
+								)}
+							>
+								Grid Container
+							</F.div>
+							<F.div
+								onClick={() => gridPanel$.set(EGridPanel.Implicit)}
+								{...classes(
+									$.title,
+									gridPanel$.view((v) => v !== EGridPanel.Implicit && $.tabBtn)
+								)}
+							>
+								Auto Grid
+							</F.div>
+						</div>
+					)}
 				</ShowIf>
 				<div className={$.content}>
-					<Grid />
+					<ShowIf value={gridPanel$} eq={EGridPanel.Explicit}>
+						{() => <Grid grid$={explicitGrid$} repeat={true} />}
+					</ShowIf>
+					<ShowIf value={gridPanel$} eq={EGridPanel.Implicit}>
+						{() => <Grid grid$={implicitGrid$} repeat={false} />}
+					</ShowIf>
 				</div>
 			</div>
 			<F.div {...classes($.sidebar, blindByAreaSelector$)}>

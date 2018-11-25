@@ -69,3 +69,19 @@
 .unit {
 	background: #e2e3e8;
 }
+
+.spring {
+	animation-name: glowing;
+	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	animation-timing-function: cubic-bezier(0, 1.13, 0.83, 1.11);
+}
+
+@keyframes glowing {
+	0% {
+		box-shadow: 0 0 0 0 rgba(0, 162, 255, 0.2);
+	}
+	20% {
+		box-shadow: 0 0 0px 2em rgba(0, 0, 0, 0);
+	}
+}

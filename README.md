@@ -8,8 +8,9 @@
 
 ## Roadmap
 - Soon
-	- [ ] Auto-generated grid tracks (aka implicit grid tracks)
+	- [x] Auto-generated grid tracks (aka implicit grid tracks)
 	- [x] repeat() notation for columns and rows
+	- [ ] fit-content() notation for columns and rows
 	- [ ] Drag & Drop for columns and rows
 - Export Code
 	- [ ] Syntax highlight

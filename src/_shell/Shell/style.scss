@@ -33,6 +33,20 @@ p + p {
 	font-size: 0.9em;
 	font-weight: 700;
 	align-self: flex-start;
+	& + & {
+		margin-left: 0.6em;
+	}
+	&.tabBtn {
+		@extend %tappable;
+		background: #252a3c;
+		color: #9299a7;
+		transition-duration: 120ms;
+		transition-property: background, color;
+		&:hover {
+			background: #4c4a56;
+			color: #ff9b70;
+		}
+	}
 }
 
 .doneBtn {

@@ -1,6 +1,6 @@
 import { combineLatest, merge, Observable } from 'rxjs'
 import { shareReplay, startWith } from 'rxjs/operators'
-import { cols$, grid$, rows$ } from '../grid/state'
+import { explicitGrid$, gridSettings$, implicitGrid$ } from '../grid/state'
 import { itemsReversed$ } from '../items/state'
 import { actionsItems } from '../_generic/actions'
 import { IUnit } from '../_generic/types/common'
@@ -15,7 +15,7 @@ const unitSize = ({ value, min, max, minmax, repeat }: IUnit) => {
 
 type TClass = { [rule: string]: string }
 
-const containerCSS$ = combineLatest(grid$, cols$, rows$).map(
+const containerCSS$ = combineLatest(gridSettings$, explicitGrid$, implicitGrid$).map(
 	([
 		{
 			isInline,
@@ -27,9 +27,10 @@ const containerCSS$ = combineLatest(grid$, cols$, rows$).map(
 			alignItems,
 			justifyContent,
 			alignContent,
+			autoFlow,
 		},
-		cols,
-		rows,
+		{ cols, rows },
+		{ cols: autoCols, rows: autoRows },
 	]) => {
 		const rules: TClass = {
 			display: isInline ? 'inline-grid' : 'grid',
@@ -40,13 +41,17 @@ const containerCSS$ = combineLatest(grid$, cols$, rows$).map(
 		if (height) {
 			rules.height = height
 		}
-		const columns = Object.values(cols)
-		if (columns.length) {
-			rules['grid-template-columns'] = columns.map(unitSize).join(' ')
+		if (cols.length) {
+			rules['grid-template-columns'] = cols.map(unitSize).join(' ')
 		}
-		const roo = Object.values(rows)
-		if (roo.length) {
-			rules['grid-template-rows'] = roo.map(unitSize).join(' ')
+		if (rows.length) {
+			rules['grid-template-rows'] = rows.map(unitSize).join(' ')
+		}
+		if (autoCols.length) {
+			rules['grid-auto-columns'] = autoCols.map(unitSize).join(' ')
+		}
+		if (autoRows.length) {
+			rules['grid-auto-rows'] = autoRows.map(unitSize).join(' ')
 		}
 		if (colGap && rowGap) {
 			rules['grid-gap'] = rowGap + ' ' + colGap
@@ -68,6 +73,9 @@ const containerCSS$ = combineLatest(grid$, cols$, rows$).map(
 			rules['justify-content'] = justifyContent
 		} else if (alignContent) {
 			rules['align-content'] = alignContent
+		}
+		if (autoFlow) {
+			rules['grid-auto-flow'] = autoFlow
 		}
 		return toCSS('container', rules)
 	}

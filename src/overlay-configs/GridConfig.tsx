@@ -1,23 +1,24 @@
 import { Label, Switch, H4 } from '@blueprintjs/core'
 import { Atom } from '@grammarly/focal'
 import * as React from 'react'
-import { IGrid } from '../_generic/types/common'
+import { IGridSettings } from '../_generic/types/common'
 import { MapElement } from '../_generic/ui/MapElement'
 import { GridPropSelect } from './GridPropSelect'
 import { GridSize } from './GridSize'
+import { GridAutoFlow } from './GridAutoFlow'
 const $ = require('../_generic/ui/Overlay/style.scss')
 
 type TProps = {
-	grid$: Atom<IGrid>
+	gridSettings$: Atom<IGridSettings>
 }
 
 const IAJ_OPTIONS = ['start', 'end', 'center', 'stretch']
 const CAJ_OPTIONS = [...IAJ_OPTIONS, 'space-around', 'space-between', 'space-evenly']
 
-export const GridConfig = ({ grid$ }: TProps) => {
-	const isInline$ = grid$.lens('isInline')
-	const isGrow$ = grid$.lens('isGrow')
-	const isGuided$ = grid$.lens('isGuided')
+export const GridConfig = ({ gridSettings$ }: TProps) => {
+	const isInline$ = gridSettings$.lens('isInline')
+	const isGrow$ = gridSettings$.lens('isGrow')
+	const isGuided$ = gridSettings$.lens('isGuided')
 	return (
 		<div
 			style={{
@@ -38,11 +39,11 @@ export const GridConfig = ({ grid$ }: TProps) => {
 				<div className={$.split}>
 					<div>
 						<Label>Container Width</Label>
-						<GridSize v$={grid$.lens('width')} withSpecial />
+						<GridSize v$={gridSettings$.lens('width')} withSpecial />
 					</div>
 					<div>
 						<Label>Container Height</Label>
-						<GridSize v$={grid$.lens('height')} withSpecial />
+						<GridSize v$={gridSettings$.lens('height')} withSpecial />
 					</div>
 				</div>
 			</div>
@@ -51,11 +52,11 @@ export const GridConfig = ({ grid$ }: TProps) => {
 				<div className={$.split}>
 					<div>
 						<Label>Justify Items</Label>
-						<GridPropSelect v$={grid$.lens('justifyItems')} options={IAJ_OPTIONS} />
+						<GridPropSelect v$={gridSettings$.lens('justifyItems')} options={IAJ_OPTIONS} />
 					</div>
 					<div>
 						<Label>Align Items</Label>
-						<GridPropSelect v$={grid$.lens('alignItems')} options={IAJ_OPTIONS} />
+						<GridPropSelect v$={gridSettings$.lens('alignItems')} options={IAJ_OPTIONS} />
 					</div>
 				</div>
 			</div>
@@ -64,11 +65,11 @@ export const GridConfig = ({ grid$ }: TProps) => {
 				<div className={$.split}>
 					<div>
 						<Label>Justify Content</Label>
-						<GridPropSelect v$={grid$.lens('justifyContent')} options={CAJ_OPTIONS} />
+						<GridPropSelect v$={gridSettings$.lens('justifyContent')} options={CAJ_OPTIONS} />
 					</div>
 					<div>
 						<Label>Align Content</Label>
-						<GridPropSelect v$={grid$.lens('alignContent')} options={CAJ_OPTIONS} />
+						<GridPropSelect v$={gridSettings$.lens('alignContent')} options={CAJ_OPTIONS} />
 					</div>
 				</div>
 			</div>
@@ -77,13 +78,18 @@ export const GridConfig = ({ grid$ }: TProps) => {
 				<div className={$.split}>
 					<div>
 						<Label>Column Gap</Label>
-						<GridSize v$={grid$.lens('colGap')} />
+						<GridSize v$={gridSettings$.lens('colGap')} />
 					</div>
 					<div>
 						<Label>Row Gap</Label>
-						<GridSize v$={grid$.lens('rowGap')} />
+						<GridSize v$={gridSettings$.lens('rowGap')} />
 					</div>
 				</div>
+			</div>
+			<div className={$.space} />
+			<div className={$.group}>
+				<Label>Auto Flow</Label>
+				<GridAutoFlow v$={gridSettings$.lens('autoFlow')} />
 			</div>
 			<div className={$.space} />
 			<div className={$.group}>
