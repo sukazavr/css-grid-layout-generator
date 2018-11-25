@@ -1,27 +1,33 @@
 import { Atom, Lens } from '@grammarly/focal'
 import { defaultUnit, IUnit, IGrid, defaultGrid } from '../_generic/types/common'
 
-const makeArray = (v: any[]) => v.map((_, index) => index)
+const packTrackKeys = (v: IUnit[]) => {
+	let prev = 2
+	return v.map(({ repeat }, index) => [index, prev, (prev = prev + (repeat || 1))].join('_'))
+}
+export const parseTrackKey = (trackKey: string) =>
+	trackKey.split('_').map(Number) as [number, number, number]
+const calcLength = (v: IUnit[]) => v.reduce((sum, { repeat }) => sum + (repeat || 1), 0)
 
 export const cols$ = Atom.create<IUnit[]>([
-	{ id: 'p-col-1', size: '1fr', isEditorOpen: false },
-	{ id: 'p-col-2', size: '1fr', isEditorOpen: false },
+	{ ...defaultUnit, id: 'p-col-1', value: '1fr' },
+	{ ...defaultUnit, id: 'p-col-2', value: '1fr' },
 ])
 
-export const colsIDs$ = cols$.view(makeArray)
-export const colsLength$ = cols$.view((v) => v.length)
+export const colsKeys$ = cols$.view(packTrackKeys)
+export const colsLength$ = cols$.view(calcLength)
 
 export const getColByIndex = (index: number) =>
 	cols$.lens(Lens.index<IUnit>(index)).lens(Lens.withDefault(defaultUnit))
 
 export const rows$ = Atom.create<IUnit[]>([
-	{ id: 'p-row-1', size: '1em', isEditorOpen: false },
-	{ id: 'p-row-2', size: 'auto', isEditorOpen: false },
-	{ id: 'p-row-3', size: '1em', isEditorOpen: false },
+	{ ...defaultUnit, id: 'p-row-1', value: '1em' },
+	{ ...defaultUnit, id: 'p-row-2', value: 'auto' },
+	{ ...defaultUnit, id: 'p-row-3', value: '1em' },
 ])
 
-export const rowsIDs$ = rows$.view(makeArray)
-export const rowsLength$ = rowsIDs$.view((v) => v.length)
+export const rowsKeys$ = rows$.view(packTrackKeys)
+export const rowsLength$ = rows$.view(calcLength)
 
 export const getRowByIndex = (index: number) =>
 	rows$.lens(Lens.index<IUnit>(index)).lens(Lens.withDefault(defaultUnit))

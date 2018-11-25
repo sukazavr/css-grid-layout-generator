@@ -1,5 +1,5 @@
 import { ca, ga, generalActionsLog$ } from '../supply/action-helpers'
-import { IItem } from '../types/common'
+import { IItem, IUnit } from '../types/common'
 import { Atom } from '@grammarly/focal'
 
 if (process.env.NODE_ENV !== 'production') {
@@ -15,21 +15,22 @@ export const actionsShell = ga('shell', {
 	_mounted: ca(),
 })
 
-type TUnitDir = {
-	isR?: true
-	pos: number
-}
-
 export const actionsGrid = ga('grid', {
-	add: ca<TUnitDir, TUnitDir, () => void>((R, ud) => () => R(ud)),
-	del: ca<TUnitDir, TUnitDir, () => void>((R, ud) => () => R(ud)),
+	addCol: ca(),
+	addBeforeCol: ca<Atom<IUnit>>(null),
+	addAfterCol: ca<Atom<IUnit>>(null),
+	removeCol: ca<Atom<IUnit>>(null),
+	addRow: ca(),
+	addBeforeRow: ca<Atom<IUnit>>(null),
+	addAfterRow: ca<Atom<IUnit>>(null),
+	removeRow: ca<Atom<IUnit>>(null),
 })
 
 export const actionsItems = ga('items', {
 	add: ca(),
-	del: ca<number, number, () => void>((R, index) => () => R(index)),
+	del: ca<number>(null),
 	reorder: ca<{ currentIndex: number; nextIndex: number }>(),
-	highlight: ca<IItem, IItem, () => void>((R, item) => () => R(item)),
+	highlight: ca<IItem>(null),
 	dropHighlight: ca(),
 	closeAllEditors: ca(),
 })
@@ -37,7 +38,5 @@ export const actionsItems = ga('items', {
 export const actionsAreaSelector = ga('area-selector', {
 	init: ca<Atom<IItem>>(),
 	done: ca(),
-	select: ca<{ x: number; y: number }, { x: number; y: number }, () => void>((R, coors) => () =>
-		R(coors)
-	),
+	select: ca<{ x: number; y: number }>(null),
 })

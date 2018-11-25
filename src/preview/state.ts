@@ -3,6 +3,15 @@ import { shareReplay, startWith } from 'rxjs/operators'
 import { cols$, grid$, rows$ } from '../grid/state'
 import { itemsReversed$ } from '../items/state'
 import { actionsItems } from '../_generic/actions'
+import { IUnit } from '../_generic/types/common'
+
+const unitSize = ({ value, min, max, minmax, repeat }: IUnit) => {
+	let size = minmax ? `minmax(${min}, ${max})` : value
+	if (repeat) {
+		size = `repeat(${repeat}, ${size})`
+	}
+	return size
+}
 
 type TClass = { [rule: string]: string }
 
@@ -33,11 +42,11 @@ const containerCSS$ = combineLatest(grid$, cols$, rows$).map(
 		}
 		const columns = Object.values(cols)
 		if (columns.length) {
-			rules['grid-template-columns'] = columns.map((v) => v.size).join(' ')
+			rules['grid-template-columns'] = columns.map(unitSize).join(' ')
 		}
 		const roo = Object.values(rows)
 		if (roo.length) {
-			rules['grid-template-rows'] = roo.map((v) => v.size).join(' ')
+			rules['grid-template-rows'] = roo.map(unitSize).join(' ')
 		}
 		if (colGap && rowGap) {
 			rules['grid-gap'] = rowGap + ' ' + colGap

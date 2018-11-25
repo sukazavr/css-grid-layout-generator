@@ -4,13 +4,16 @@ import { share } from 'rxjs/operators'
 // Create Action
 export function ca(): TDummyAction
 export function ca<A>(): TAction<A>
+export function ca<A>(modifier: null): TAction<A, A, () => void>
 export function ca<A, P, C>(modifier: TModifier<A, P, C>): TAction<A, P, C>
-export function ca<A, P, C>(modifier?: TModifier<A, P, C>): TAction<A, P, C> {
+export function ca<A, P, C>(modifier?: TModifier<A, P, C> | null): TAction<A, P, C> {
 	let next: (payload: any) => void
 	const action: any = (args: any) => {
 		if (next) {
 			if (modifier) {
 				return modifier(next, args)
+			} else if (modifier === null) {
+				return () => next(args)
 			} else {
 				next(args)
 			}
@@ -74,10 +77,15 @@ const dd = ca<string>()
 dd('h')
 dd.$
 
+const dd1 = ca<string>(null)
+dd1.$
+const h1 = dd1('dd')
+h1()
+
 const dd2 = ca<string, number, (x: number) => void>((R, smth) => (x) => R(x + Number(smth)))
 dd2.$
-const h = dd2('df')
-h(3)
+const h2 = dd2('df')
+h2(3)
 
 const tt = ga('tool', {
 	d,

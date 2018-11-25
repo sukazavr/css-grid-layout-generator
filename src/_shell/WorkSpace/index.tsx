@@ -15,9 +15,6 @@ export const WorkSpace = () => {
 			<div>
 				<ItemConfig item$={item$} />
 			</div>
-			<div>
-				<UnitConfig unit$={unit$} />
-			</div>
 		</div>
 	)
 }

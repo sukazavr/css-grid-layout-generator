@@ -28,3 +28,15 @@
 .space {
 	height: 1em;
 }
+
+.btnPanel {
+	display: flex;
+	svg {
+		fill: #8ebec7;
+		transition-duration: 120ms;
+		transition-property: fill;
+	}
+	button:hover svg {
+		fill: #ff9b70;
+	}
+}

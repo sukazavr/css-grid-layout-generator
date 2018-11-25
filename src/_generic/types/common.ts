@@ -32,13 +32,21 @@ export const defaultGrid: IGrid = {
 
 export interface IUnit {
 	id: string
-	size: string
+	value: string
+	min: string
+	max: string
+	minmax: boolean
+	repeat: number
 	isEditorOpen: boolean
 }
 
 export const defaultUnit: IUnit = {
 	id: 'def-unit',
-	size: 'auto',
+	value: 'auto',
+	min: '0px',
+	max: '1fr',
+	minmax: false,
+	repeat: 0,
 	isEditorOpen: false,
 }
 

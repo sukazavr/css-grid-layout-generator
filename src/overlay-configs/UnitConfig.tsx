@@ -1,68 +1,127 @@
-import { Label, Switch } from '@blueprintjs/core'
-import { Atom, Lens } from '@grammarly/focal'
+import { Label, NumericInput, Switch } from '@blueprintjs/core'
+import { Atom } from '@grammarly/focal'
 import * as React from 'react'
 import { IUnit } from '../_generic/types/common'
-import { GridUnitSize } from './GridUnitSize'
 import { MapElement } from '../_generic/ui/MapElement'
+import { ShowIf } from '../_generic/ui/ShowIf'
+import { GridUnitSize } from './GridUnitSize'
+import { actionsGrid } from '../_generic/actions'
+import { Btn } from '../_generic/ui/Btn'
+import { HLLeave, HLAddRow, HLAddCol, HLRemoveRow, HLRemoveCol } from '../grid/Highlighter'
 const $ = require('../_generic/ui/Overlay/style.scss')
 
 type TProps = {
 	unit$: Atom<IUnit>
+	row?: true
+	start: number
+	end: number
 }
 
-const MINMAX = 'minmax'
-const parseMinMax = (v: string): [string, string, string] =>
-	(/^minmax\((.+), (.+)\)$/.exec(v) as any) || []
-const getMin = (v: string) => parseMinMax(v)[1]
-const getMax = (v: string) => parseMinMax(v)[2]
-const toMinmax = (min: string, max: string) => `minmax(${min}, ${max})`
-
-export const UnitConfig = ({ unit$ }: TProps) => {
-	const size$ = unit$.lens('size')
+export const UnitConfig = ({ unit$, row, start, end }: TProps) => {
+	const value$ = unit$.lens('value')
+	const min$ = unit$.lens('min')
+	const max$ = unit$.lens('max')
+	const minmax$ = unit$.lens('minmax')
+	const repeat$ = unit$.lens('repeat')
+	const addBefore = row ? actionsGrid.addBeforeRow : actionsGrid.addBeforeCol
+	const addAfter = row ? actionsGrid.addAfterRow : actionsGrid.addAfterCol
+	const remove = row ? actionsGrid.removeRow : actionsGrid.removeCol
+	const HLAdd = row ? HLAddRow : HLAddCol
+	const HLRemove = row ? HLRemoveRow : HLRemoveCol
 	return (
 		<div
 			style={{
 				width: 'max-content',
 			}}
 		>
-			<MapElement stream={size$}>
-				{(size) => {
-					let sizeElements: JSX.Element
-					const isMinmax = size.includes(MINMAX)
-					if (isMinmax) {
-						const minSize$ = size$.lens(
-							Lens.create(getMin, (nextMin, pSize) => toMinmax(nextMin, getMax(pSize)))
-						)
-						const maxSize$ = size$.lens(
-							Lens.create(getMax, (nextMax, pSize) => toMinmax(getMin(pSize), nextMax))
-						)
-						sizeElements = (
-							<>
-								<Label>Min Size</Label>
-								<GridUnitSize v$={minSize$} />
-								<div className={$.space} />
-								<Label>Max Size</Label>
-								<GridUnitSize v$={maxSize$} />
-							</>
-						)
-					} else {
-						sizeElements = (
-							<div>
-								<Label>Size</Label>
-								<GridUnitSize v$={unit$.lens('size')} />
-							</div>
-						)
-					}
+			<div className={$.group}>
+				<div className={$.btnPanel}>
+					<Btn
+						ico={row ? 'addBeforeRow' : 'addBeforeCol'}
+						transparent
+						onMouseOver={HLAdd(start)}
+						onMouseOut={HLLeave}
+						onClick={addBefore(unit$)}
+					/>
+					<Btn
+						ico={row ? 'addAfterRow' : 'addAfterCol'}
+						transparent
+						onMouseOver={HLAdd(end)}
+						onMouseOut={HLLeave}
+						onClick={addAfter(unit$)}
+					/>
+					<Btn
+						ico={row ? 'removeRow' : 'removeCol'}
+						transparent
+						onMouseOver={HLRemove({ start, end })}
+						onMouseOut={HLLeave}
+						onClick={remove(unit$)}
+					/>
+				</div>
+			</div>
+			<div className={$.space} />
+			<div className={$.group}>
+				<ShowIf value={minmax$} eq={false}>
+					{() => (
+						<>
+							<Label>Size</Label>
+							<GridUnitSize v$={value$} />
+						</>
+					)}
+				</ShowIf>
+				<ShowIf value={minmax$} eq={true}>
+					{() => (
+						<>
+							<Label>Min Size</Label>
+							<GridUnitSize v$={min$} />
+							<div className={$.space} />
+							<Label>Max Size</Label>
+							<GridUnitSize v$={max$} />
+						</>
+					)}
+				</ShowIf>
+				<div className={$.space} />
+				<MapElement stream={minmax$}>
+					{(isMinmax) => (
+						<Switch
+							checked={isMinmax}
+							label="minmax()"
+							onChange={(event) => {
+								const v = (event.target as HTMLInputElement).checked
+								minmax$.set(v)
+							}}
+						/>
+					)}
+				</MapElement>
+			</div>
+			<div className={$.space} />
+			<MapElement stream={repeat$}>
+				{(v) => {
+					const isActive = v > 1
 					return (
 						<div className={$.group}>
-							{sizeElements}
-							<div className={$.space} />
+							{isActive && (
+								<>
+									<NumericInput
+										buttonPosition="left"
+										min={0}
+										majorStepSize={1}
+										minorStepSize={1}
+										value={v}
+										onValueChange={(nextNum) => repeat$.set(nextNum > 1 ? nextNum : 0)}
+										selectAllOnFocus={true}
+										clampValueOnBlur={true}
+										style={{ width: '2em' }}
+									/>
+									<div className={$.space} />
+								</>
+							)}
 							<Switch
-								checked={isMinmax}
-								label="minmax()"
+								checked={isActive}
+								label="repeat()"
 								onChange={(event) => {
-									const v = (event.target as HTMLInputElement).checked
-									size$.set(v ? toMinmax(size, '1fr') : getMin(size))
+									const val = (event.target as HTMLInputElement).checked
+									repeat$.set(val ? 2 : 0)
 								}}
 							/>
 						</div>

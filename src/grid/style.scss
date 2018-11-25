@@ -10,16 +10,17 @@
 	grid-template-rows: 3em;
 }
 
-.row {
+.col {
 	grid-row-start: 1;
 	border-radius: 0 0 0.2em 0.2em;
 }
 
-.col {
+.row {
 	grid-column-start: 1;
 	border-radius: 0 0.2em 0.2em 0;
 	span {
 		transform: rotate(-90deg);
+		overflow: visible !important;
 	}
 }
 
@@ -29,8 +30,8 @@
 	border-radius: 0 0 0.2em 0;
 }
 
-.row,
 .col,
+.row,
 .config {
 	@extend %tappable;
 	display: flex;
@@ -44,7 +45,7 @@
 		font-weight: 700;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-    overflow: hidden;
+		overflow: hidden;
 		transition-duration: 200ms;
 		transition-property: color;
 	}
@@ -63,4 +64,8 @@
 			fill: #ff9b70;
 		}
 	}
+}
+
+.unit {
+	background: #e2e3e8;
 }

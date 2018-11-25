@@ -9,7 +9,7 @@
 ## Roadmap
 - Soon
 	- [ ] Auto-generated grid tracks (aka implicit grid tracks)
-	- [ ] repeat() notation for columns and rows
+	- [x] repeat() notation for columns and rows
 	- [ ] Drag & Drop for columns and rows
 - Export Code
 	- [ ] Syntax highlight

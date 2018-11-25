@@ -4,18 +4,21 @@ import { AreaUnit } from '../area-selector/AreaUnit'
 import { blindByAreaSelector$, isActiveAreaSelector$ } from '../area-selector/state'
 import './epic'
 import {
-	colsIDs$,
+	colsKeys$,
 	colsLength$,
 	getColByIndex,
 	getRowByIndex,
-	rowsIDs$,
+	rowsKeys$,
 	rowsLength$,
 	grid$,
+	parseTrackKey,
 } from './state'
-import { Highlighter, Unit } from './Unit'
 import { Overlay } from '../_generic/ui/Overlay'
 import { UnitConfig } from '../overlay-configs/UnitConfig'
 import { GridConfig } from '../overlay-configs/GridConfig'
+import { IUnit } from '../_generic/types/common'
+import { actionsGrid } from '../_generic/actions'
+import { Highlighter } from './Highlighter'
 const $ = require('./style.scss')
 
 const DIV = ':'
@@ -33,6 +36,14 @@ const units$ = Atom.combine(colsLength$, rowsLength$, (cols, rows) => {
 })
 
 const isGridConfigOpen$ = grid$.lens('isEditorOpen')
+
+const unitTitle = ({ value, min, max, minmax, repeat }: IUnit) => {
+	let title = minmax ? `${min}→${max}` : value
+	if (repeat) {
+		title = `${title} ×${repeat}`
+	}
+	return title
+}
 
 // tslint:disable:max-line-length
 export const Grid = () => (
@@ -52,20 +63,41 @@ export const Grid = () => (
 			</F.div>
 		</Overlay>
 
-		{reactiveList(colsIDs$, (index) => {
+		{colsKeys$.view(
+			(v) =>
+				v.length ? null : (
+					<div className={$.col} style={{ gridColumnStart: 2 }} onClick={actionsGrid.addCol}>
+						<span>Add Column</span>
+					</div>
+				)
+		)}
+
+		{rowsKeys$.view(
+			(v) =>
+				v.length ? null : (
+					<div className={$.row} style={{ gridRowStart: 2 }} onClick={actionsGrid.addRow}>
+						<span>Add Row</span>
+					</div>
+				)
+		)}
+
+		{reactiveList(colsKeys$, (key) => {
+			const [index, gridColumnStart, gridColumnEnd] = parseTrackKey(key)
 			const col$ = getColByIndex(index)
-			const title$ = col$.view('size')
+			const title$ = col$.view(unitTitle)
 			const isOpen$ = col$.lens('isEditorOpen')
 			return (
 				<Overlay
-					key={index}
+					key={key}
 					isOpen$={isOpen$}
 					position={['bottom', 'right', 'left', 'top']}
-					content={() => <UnitConfig unit$={col$} />}
+					content={() => (
+						<UnitConfig unit$={col$} start={gridColumnStart} end={gridColumnEnd} />
+					)}
 				>
 					<F.div
-						{...classes($.row, blindByAreaSelector$)}
-						style={{ gridColumnStart: index + 2 }}
+						{...classes($.col, blindByAreaSelector$)}
+						style={{ gridColumnStart, gridColumnEnd }}
 						onClick={() => isOpen$.set(true)}
 					>
 						<F.span>{title$}</F.span>
@@ -74,20 +106,21 @@ export const Grid = () => (
 			)
 		})}
 
-		{reactiveList(rowsIDs$, (index) => {
+		{reactiveList(rowsKeys$, (key) => {
+			const [index, gridRowStart, gridRowEnd] = parseTrackKey(key)
 			const row$ = getRowByIndex(index)
-			const title$ = row$.view('size')
+			const title$ = row$.view(unitTitle)
 			const isOpen$ = row$.lens('isEditorOpen')
 			return (
 				<Overlay
-					key={index}
+					key={key}
 					isOpen$={isOpen$}
 					position={['right', 'top', 'bottom', 'left']}
-					content={() => <UnitConfig unit$={row$} />}
+					content={() => <UnitConfig unit$={row$} row start={gridRowStart} end={gridRowEnd} />}
 				>
 					<F.div
-						{...classes($.col, blindByAreaSelector$)}
-						style={{ gridRowStart: index + 2 }}
+						{...classes($.row, blindByAreaSelector$)}
+						style={{ gridRowStart, gridRowEnd }}
 						onClick={() => isOpen$.set(true)}
 					>
 						<F.span>{title$}</F.span>
@@ -100,16 +133,7 @@ export const Grid = () => (
 			const [px, py] = st.split(DIV)
 			const x = px === LAST ? 1 : Number(px) + 1
 			const y = py === LAST ? 1 : Number(py) + 1
-			return (
-				<UnitSwitcher
-					key={st}
-					x={x}
-					y={y}
-					disabledRemoveCol={px === LAST}
-					disabledRemoveRow={py === LAST}
-					isActiveAreaSelector={isActiveAreaSelector$}
-				/>
-			)
+			return <UnitSwitcher key={st} x={x} y={y} isActiveAreaSelector={isActiveAreaSelector$} />
 		})}
 
 		<Highlighter />
@@ -120,21 +144,12 @@ type TUnitSwitcherProps = {
 	isActiveAreaSelector: boolean
 	x: number
 	y: number
-	disabledRemoveCol: boolean
-	disabledRemoveRow: boolean
 }
 
-const UnitSwitcher = lift(
-	({ isActiveAreaSelector, x, y, disabledRemoveCol, disabledRemoveRow }: TUnitSwitcherProps) => {
-		return isActiveAreaSelector ? (
-			<AreaUnit x={x} y={y} />
-		) : (
-			<Unit
-				x={x}
-				y={y}
-				disabledRemoveCol={disabledRemoveCol}
-				disabledRemoveRow={disabledRemoveRow}
-			/>
-		)
-	}
-)
+const UnitSwitcher = lift(({ isActiveAreaSelector, x, y }: TUnitSwitcherProps) => {
+	return isActiveAreaSelector ? (
+		<AreaUnit x={x} y={y} />
+	) : (
+		<div className={$.unit} style={{ gridColumnStart: x + 1, gridRowStart: y + 1 }} />
+	)
+})
