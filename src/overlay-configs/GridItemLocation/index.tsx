@@ -27,7 +27,7 @@ export const GridItemLocation = ({ v$ }: { v$: Atom<string> }) => {
 								v$.set(
 									!nextNum || nextNum < 1
 										? AUTO
-										: !num || isSpan
+										: isSpan
 											? `${SPAN} ${nextNum}`
 											: nextNum.toString()
 								)
