@@ -4,7 +4,7 @@ import { merge, Observable, Subscription } from 'rxjs'
 import { map, withLatestFrom } from 'rxjs/operators'
 import { ca } from '../../_generic/supply/action-helpers'
 import { MapElement } from '../../_generic/ui/MapElement'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 export const HLLeave = ca()
 export const HLAddRow = ca<number>(null)

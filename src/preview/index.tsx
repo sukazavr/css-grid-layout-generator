@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators'
 import { calcLength, explicitGrid$, gridSettings$ } from '../grid/state'
 import { itemsReversed$ } from '../items/state'
 import { css$, cssHighlighter$ } from './state'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string }) => (
 	<style type="text/css" dangerouslySetInnerHTML={{ __html: css + cssHighlighter }} />
@@ -27,7 +27,7 @@ const guides$ = explicitGrid$.view(({ cols, rows }) => {
 
 const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && ($.flexed as string))
 const renderGuides$ = gridSettings$.view('isGuided').pipe(
-	switchMap<boolean, JSX.Element>((isGuided) => {
+	switchMap((isGuided) => {
 		if (isGuided) {
 			return reactiveList(guides$, (st) => {
 				const [px, py] = st.split(DIV)

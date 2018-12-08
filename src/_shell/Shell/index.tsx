@@ -12,7 +12,7 @@ import { Items } from '../../items'
 import { Preview } from '../../preview'
 import { actionsAreaSelector } from '../../_generic/actions'
 import { ShowIf } from '../../_generic/ui/ShowIf'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 enum EGridPanel {
 	Explicit,
@@ -23,7 +23,6 @@ const gridPanel$ = Atom.create<EGridPanel>(EGridPanel.Explicit)
 
 // tslint:disable:max-line-length
 export const Shell = () => {
-	// return <WorkSpace />
 	return (
 		<div className={$.shell}>
 			<F.div {...classes($.preview, blindByAreaSelector$)}>

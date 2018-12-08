@@ -3,7 +3,7 @@ import cc from 'classcat'
 import * as React from 'react'
 import { Ico } from '../Ico'
 import { icons } from '../Ico/icons'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 type TProps = {
 	label?: string

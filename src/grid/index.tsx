@@ -11,7 +11,7 @@ import { defaultUnit, IGrid, IUnit } from '../_generic/types/common'
 import { Overlay } from '../_generic/ui/Overlay'
 import { Highlighter } from './Highlighter'
 import { calcLength, gridSettings$, packTrackKeys, parseTrackKey } from './state'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 const DIV = ':'
 const LAST = 'LAST'
@@ -113,32 +113,30 @@ export class Grid extends React.PureComponent<TProps> {
 					</F.div>
 				</Overlay>
 
-				{colsKeys$.view(
-					(v) =>
-						v.length ? null : (
-							<div
-								key="colsKeys"
-								className={cc([$.col, $.spring])}
-								style={{ gridColumnStart: 2, animationDelay: '2s' }}
-								onClick={actionsGrid.addCol}
-							>
-								<span>Add Column</span>
-							</div>
-						)
+				{colsKeys$.view((v) =>
+					v.length ? null : (
+						<div
+							key="colsKeys"
+							className={cc([$.col, $.spring])}
+							style={{ gridColumnStart: 2, animationDelay: '2s' }}
+							onClick={actionsGrid.addCol}
+						>
+							<span>Add Column</span>
+						</div>
+					)
 				)}
 
-				{rowsKeys$.view(
-					(v) =>
-						v.length ? null : (
-							<div
-								key="rowsKeys"
-								className={cc([$.row, $.spring])}
-								style={{ gridRowStart: 2 }}
-								onClick={actionsGrid.addRow}
-							>
-								<span>Add Row</span>
-							</div>
-						)
+				{rowsKeys$.view((v) =>
+					v.length ? null : (
+						<div
+							key="rowsKeys"
+							className={cc([$.row, $.spring])}
+							style={{ gridRowStart: 2 }}
+							onClick={actionsGrid.addRow}
+						>
+							<span>Add Row</span>
+						</div>
+					)
 				)}
 
 				{reactiveList(colsKeys$, (key) => {

@@ -13,7 +13,15 @@
     "strictNullChecks": true,
     "sourceMap": false,
     "strictFunctionTypes": true,
-    "typeRoots": ["node_modules/@types", "src/_generic/types/modules"]
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.(sc|c)ss$",
+          "camelCase": true
+        }
+      }
+    ]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

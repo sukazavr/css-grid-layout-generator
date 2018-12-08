@@ -1,11 +1,11 @@
-import { Classes, Dialog, H4, Button } from '@blueprintjs/core'
+import { Button, Classes, Dialog, H4 } from '@blueprintjs/core'
 import { lift } from '@grammarly/focal'
 import cc from 'classcat'
+import clipboardCopy from 'clipboard-copy'
 import * as React from 'react'
 import { css$, html$ } from '../preview/state'
 import { Btn } from '../_generic/ui/Btn'
-const clipboardCopy = require('clipboard-copy')
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 const modalProps = {
 	title: 'Your freshly baked code',

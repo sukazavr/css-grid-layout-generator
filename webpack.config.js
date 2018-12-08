@@ -6,7 +6,4 @@ if (!TARGET || TARGET === 'dev:app') {
 } else if (TARGET === 'build:app') {
 	module.exports = require('./config/webpack.prod')
 	console.info('--> ./config/webpack.prod.js')
-} else if (TARGET === 'build:analyze') {
-	module.exports = require('./config/webpack.analyze')
-	console.info('--> ./config/webpack.analyze.js')
 }

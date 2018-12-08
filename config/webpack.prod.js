@@ -8,6 +8,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import path from 'path'
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 import webpack from 'webpack'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import merge from 'webpack-merge'
 import { dist, indexHtml, publicAssets, scssModules, src } from './paths'
 import common from './webpack.common'
@@ -110,6 +111,11 @@ export default merge(common, {
 			],
 			append: true,
 		}),
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'static',
+			defaultSizes: 'gzip',
+			openAnalyzer: false,
+		}),
 	],
 	module: {
 		rules: [
@@ -141,12 +147,14 @@ export default merge(common, {
 					{
 						loader: 'css-loader',
 						options: {
+							url: false,
+							import: false,
+							sourceMap: true,
 							modules: true,
 							camelCase: true,
-							importLoaders: true,
-							// Chunks Hash changes every time when using css-modules
-							// https://github.com/webpack-contrib/css-loader/issues/582
-							localIdentName: '[local]-[path]',
+							importLoaders: 2,
+							exportOnlyLocals: true,
+							localIdentName: '[hash:base64:5]',
 						},
 					},
 					'postcss-loader',

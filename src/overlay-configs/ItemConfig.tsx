@@ -8,7 +8,7 @@ import { GridPropSelect } from './GridPropSelect'
 import { GridItemCharacters } from './GridItemCharacters'
 import { GridItemColor } from './GridItemColor'
 import { GridItemName } from './GridItemName'
-const $ = require('../_generic/ui/Overlay/style.scss')
+import $ from '../_generic/ui/Overlay/style.scss'
 
 type TProps = {
 	item$: Atom<IItem>

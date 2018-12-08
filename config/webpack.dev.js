@@ -3,7 +3,7 @@ import StyleLintPlugin from 'stylelint-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
-import { indexHtml, scssModules, src } from './paths'
+import { indexHtml, scssModules, src, publicAssets } from './paths'
 import common from './webpack.common'
 
 export default merge(common, {
@@ -15,22 +15,18 @@ export default merge(common, {
 		host: '0.0.0.0',
 		public: 'localhost:36402',
 		open: true,
-		contentBase: false,
+		contentBase: publicAssets,
 		watchOptions: {
 			aggregateTimeout: 300,
 		},
-		// These settings suppress noisy webpack output so only errors are displayed to the console.
-		noInfo: true,
-		quiet: false,
-		stats: {
-			assets: false,
-			colors: true,
-			version: false,
-			hash: false,
-			timings: false,
-			chunks: false,
-			chunkModules: false,
-		},
+		// Request paths not ending in a file extension serve index.html:
+		historyApiFallback: true,
+		// Suppress forwarding of Webpack logs to the browser console:
+		clientLogLevel: 'none',
+		// Supress the extensive stats normally printed after a dev build (since sizes are mostly useless):
+		stats: 'minimal',
+		// Don't embed an error overlay ("redbox") into the client bundle:
+		overlay: false,
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -98,18 +94,21 @@ export default merge(common, {
 					{
 						loader: 'css-loader',
 						options: {
+							url: false,
+							import: false,
+							sourceMap: true,
 							modules: true,
 							camelCase: true,
-							importLoaders: true,
-							// Chunks Hash changes every time when using css-modules
-							// https://github.com/webpack-contrib/css-loader/issues/582
-							localIdentName: '[local]-[path]',
+							importLoaders: 2,
+							exportOnlyLocals: true,
+							localIdentName: '[local]__[hash:base64:5]',
 						},
 					},
 					'postcss-loader',
 					{
 						loader: 'sass-loader',
 						options: {
+							sourceMap: true,
 							includePaths: [scssModules],
 						},
 					},

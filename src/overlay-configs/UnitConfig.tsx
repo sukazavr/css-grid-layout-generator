@@ -9,7 +9,7 @@ import { actionsGrid } from '../_generic/actions'
 import { Btn } from '../_generic/ui/Btn'
 import { HLLeave, HLAddRow, HLAddCol, HLRemoveRow, HLRemoveCol } from '../grid/Highlighter'
 import { GridUnitRepeat } from './GridUnitRepeat'
-const $ = require('../_generic/ui/Overlay/style.scss')
+import $ from '../_generic/ui/Overlay/style.scss'
 
 type TProps = {
 	unit$: Atom<IUnit>

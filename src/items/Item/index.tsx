@@ -8,7 +8,7 @@ import { IItem } from '../../_generic/types/common'
 import { Btn } from '../../_generic/ui/Btn'
 import { Overlay } from '../../_generic/ui/Overlay'
 import { getItemByIndex } from '../state'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 type TProps = {
 	index: number

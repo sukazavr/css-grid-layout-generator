@@ -6,7 +6,7 @@ import { MapElement } from '../_generic/ui/MapElement'
 import { GridPropSelect } from './GridPropSelect'
 import { GridSize } from './GridSize'
 import { GridAutoFlow } from './GridAutoFlow'
-const $ = require('../_generic/ui/Overlay/style.scss')
+import $ from '../_generic/ui/Overlay/style.scss'
 
 type TProps = {
 	gridSettings$: Atom<IGridSettings>

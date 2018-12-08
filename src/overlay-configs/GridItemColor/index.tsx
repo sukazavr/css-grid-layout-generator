@@ -1,7 +1,7 @@
 import { Atom, F } from '@grammarly/focal'
 import * as React from 'react'
 import { COLORS } from '../../_generic/supply/get-color'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 export const GridItemColor = ({ v$ }: { v$: Atom<string> }) => {
 	return (

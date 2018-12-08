@@ -2,7 +2,7 @@ import * as React from 'react'
 import Popover, { ArrowContainer, Position } from 'react-tiny-popover'
 import { Atom } from '@grammarly/focal'
 import { Subscription } from 'rxjs'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 type TProps = {
 	isOpen$: Atom<boolean>

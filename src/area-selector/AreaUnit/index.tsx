@@ -3,7 +3,7 @@ import * as React from 'react'
 import { actionsAreaSelector } from '../../_generic/actions'
 import { ca } from '../../_generic/supply/action-helpers'
 import { stateAreaSelector$ } from '../state'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 type TProps = {
 	x: number

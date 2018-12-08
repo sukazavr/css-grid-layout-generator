@@ -7,7 +7,7 @@ import { Btn } from '../_generic/ui/Btn'
 import './epic'
 import { Item } from './Item'
 import { getItemByIndex, itemsIDs$ } from './state'
-const $ = require('./style.scss')
+import $ from './style.scss'
 
 const list$ = reactiveList(itemsIDs$, (index) => {
 	const item$ = getItemByIndex(index)
