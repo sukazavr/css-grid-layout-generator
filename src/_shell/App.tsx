@@ -4,6 +4,7 @@ import { actionsShell } from '../_generic/actions'
 import { Shell } from './Shell'
 
 setConfig({
+	logLevel: 'debug',
 	ignoreSFC: true, // RHL will be __completely__ disabled for SFC
 	pureRender: true, // RHL will not change render method
 })

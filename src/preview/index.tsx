@@ -4,7 +4,10 @@ import * as React from 'react'
 import { of } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
 import { calcLength, explicitGrid$, gridSettings$ } from '../grid/state'
-import { itemsReversed$ } from '../items/state'
+import { itemsReversed$, selectedID$ } from '../items/state'
+import { actionsItems } from '../_generic/actions'
+import { defaultItem } from '../_generic/types/common'
+import { ReactiveList } from '../_generic/ui/ReactiveList'
 import { css$, cssHighlighter$ } from './state'
 import $ from './style.scss'
 
@@ -50,13 +53,23 @@ export const Preview = () => {
 			<F.div {...classes($.preview, isGrowClass$)}>
 				<F.div className={cc(['container', $.container])}>
 					{renderGuides$}
-					{itemsReversed$.map((items) =>
-						items.map(({ id, name, color, characters }) => (
-							<div key={id} className={cc([name, $.item])} style={{ background: color }}>
-								{characters}
-							</div>
-						))
-					)}
+					<ReactiveList items={itemsReversed$} defaultItem={defaultItem}>
+						{(item$, index) => {
+							const id = item$.get().id
+							const select = actionsItems.select(id)
+							const activeClass$ = selectedID$.view((sid) => sid === id && $.active)
+							return (
+								<F.div
+									key={index}
+									{...classes(item$.view('name'), $.item, activeClass$)}
+									style={{ backgroundColor: item$.view('color') }}
+									onClick={select}
+								>
+									{item$.view('characters')}
+								</F.div>
+							)
+						}}
+					</ReactiveList>
 				</F.div>
 			</F.div>
 		</>

@@ -1,0 +1,40 @@
+.section {
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	margin-top: 0.2em;
+	padding: 1em;
+	background: #3b3c4c;
+}
+
+.control {
+	display: flex;
+	flex-direction: column;
+	& + & {
+		margin-top: 1em;
+	}
+	label {
+		display: block;
+		margin: 0 0 0.4em 0;
+		font-size: 0.9em;
+		font-weight: 700;
+		color: #7e90a0 !important;
+	}
+	h1,
+	h2,
+	h3 {
+		margin: 0;
+	}
+}
+
+.btnPanel {
+	display: flex;
+	svg {
+		fill: #8ebec7;
+		transition-duration: 120ms;
+		transition-property: fill;
+	}
+	button:hover svg {
+		fill: #ff9b70;
+	}
+}

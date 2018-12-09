@@ -1,3 +1,11 @@
+input,
+textarea,
+select,
+button {
+	font-family: inherit;
+	font-weight: inherit;
+}
+
 .react-tiny-popover-container {
 	z-index: 100;
 }

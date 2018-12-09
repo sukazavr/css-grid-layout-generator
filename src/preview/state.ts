@@ -1,16 +1,24 @@
 import { combineLatest, merge, Observable } from 'rxjs'
 import { shareReplay, startWith } from 'rxjs/operators'
-import { explicitGrid$, gridSettings$, implicitGrid$ } from '../grid/state'
+import { gridSettings$, explicitGrid$, implicitGrid$ } from '../grid/state'
 import { itemsReversed$ } from '../items/state'
 import { actionsItems } from '../_generic/actions'
-import { IUnit } from '../_generic/types/common'
+import { ITrack } from '../_generic/types/common'
+import { NTA } from '../_generic/supply/utils'
 
-const unitSize = ({ value, min, max, minmax, repeat }: IUnit) => {
-	let size = minmax ? `minmax(${min}, ${max})` : value
+const trackSize = ({ value, min, max, minmax, repeat }: ITrack) => {
+	let size = minmax ? `minmax(${NTA(min)}, ${NTA(max)})` : NTA(value)
 	if (repeat) {
 		size = `repeat(${repeat}, ${size})`
 	}
 	return size
+}
+
+const tracksHaveSize = (tracks: ITrack[]) => {
+	return (
+		Boolean(tracks.length) &&
+		tracks.some((track) => track.minmax || Boolean(track.repeat) || Boolean(track.value))
+	)
 }
 
 type TClass = { [rule: string]: string }
@@ -41,17 +49,17 @@ const containerCSS$ = combineLatest(gridSettings$, explicitGrid$, implicitGrid$)
 		if (height) {
 			rules.height = height
 		}
-		if (cols.length) {
-			rules['grid-template-columns'] = cols.map(unitSize).join(' ')
+		if (tracksHaveSize(cols)) {
+			rules['grid-template-columns'] = cols.map(trackSize).join(' ')
 		}
-		if (rows.length) {
-			rules['grid-template-rows'] = rows.map(unitSize).join(' ')
+		if (tracksHaveSize(rows)) {
+			rules['grid-template-rows'] = rows.map(trackSize).join(' ')
 		}
-		if (autoCols.length) {
-			rules['grid-auto-columns'] = autoCols.map(unitSize).join(' ')
+		if (tracksHaveSize(autoCols)) {
+			rules['grid-auto-columns'] = autoCols.map(trackSize).join(' ')
 		}
-		if (autoRows.length) {
-			rules['grid-auto-rows'] = autoRows.map(unitSize).join(' ')
+		if (tracksHaveSize(autoRows)) {
+			rules['grid-auto-rows'] = autoRows.map(trackSize).join(' ')
 		}
 		if (colGap && rowGap) {
 			rules['grid-gap'] = rowGap + ' ' + colGap
@@ -123,6 +131,7 @@ export const cssHighlighter$: Observable<string> = merge(
 	shareReplay(1)
 )
 
+// TODO: filter non string rules
 const toCSS = (className: string, rules: TClass) =>
 	`.${className} {\n${Object.entries(rules)
 		.map(([ruleName, rule]) => `\t${ruleName}: ${rule};\n`)

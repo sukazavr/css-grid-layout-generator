@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 
+export const NTA = (v: string | null) => v || 'auto'
+
 export const debug = (...args: any[]) => <T>(stream: Observable<T>) => {
 	if (process.env.NODE_ENV === 'production') {
 		return stream

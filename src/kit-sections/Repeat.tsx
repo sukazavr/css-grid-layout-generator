@@ -1,7 +1,7 @@
 import { ControlGroup, HTMLSelect, NumericInput } from '@blueprintjs/core'
 import { Atom } from '@grammarly/focal'
 import * as React from 'react'
-import { MapElement } from '../../_generic/ui/MapElement'
+import { MapElement } from '../_generic/ui/MapElement'
 
 const DISABLED = 'disabled'
 const INTEGER = 'integer'
@@ -10,7 +10,7 @@ const AUTO_FIT = 'auto-fit'
 
 const MB_OPTIONS = [DISABLED, INTEGER, AUTO_FILL, AUTO_FIT]
 
-export const GridUnitRepeat = ({ v$ }: { v$: Atom<string | number> }) => {
+export const Repeat = ({ v$ }: { v$: Atom<string | number> }) => {
 	return (
 		<MapElement stream={v$}>
 			{(repeat) => {

@@ -111,6 +111,10 @@ export default merge(common, {
 			],
 			append: true,
 		}),
+		new webpack.NormalModuleReplacementPlugin(
+			/.*\/generated\/iconSvgPaths.*/,
+			path.resolve(__dirname, 'iconSvgPaths.js')
+		),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
 			defaultSizes: 'gzip',

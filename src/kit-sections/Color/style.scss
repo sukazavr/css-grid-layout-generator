@@ -2,8 +2,8 @@
 
 .container {
 	display: grid;
-	grid-template-columns: repeat(9, 2em);
-	grid-template-rows: 2em 2em;
+	grid-template-columns: repeat(6, 2em);
+	grid-template-rows: repeat(3, 2em);
 	grid-gap: 0.4em 0.4em;
 	justify-content: space-between;
 }

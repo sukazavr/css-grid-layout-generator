@@ -1,5 +1,7 @@
 .item {
 	display: flex;
+	align-items: center;
+	margin-top: 0.2em;
 	user-select: none;
 	border-radius: 0.2em;
 	transition-duration: 120ms;
@@ -7,14 +9,20 @@
 
 	.name {
 		flex-grow: 1;
-		padding: 1em;
+		padding: 0.7em;
+		word-break: break-all;
 	}
 
 	.ctrl {
 		flex-shrink: 0;
+		font-size: 0.8em;
 		opacity: 0;
 		transition-duration: 120ms;
 		transition-property: opacity;
+	}
+
+	&.active {
+		background: rgba(226, 227, 232, 0.17);
 	}
 
 	&:hover {

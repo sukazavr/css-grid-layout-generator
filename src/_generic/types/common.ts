@@ -1,5 +1,3 @@
-import { Atom } from '@grammarly/focal'
-
 export interface IGridSettings {
 	isInline: boolean
 	width: string | null
@@ -13,7 +11,6 @@ export interface IGridSettings {
 	autoFlow: string | null
 	isGrow: boolean
 	isGuided: boolean
-	isEditorOpen: boolean
 }
 
 export const defaultGridSettings: IGridSettings = {
@@ -29,28 +26,27 @@ export const defaultGridSettings: IGridSettings = {
 	autoFlow: null,
 	isGrow: true,
 	isGuided: true,
-	isEditorOpen: false,
 }
 
 export interface IGrid {
-	cols: IUnit[]
-	rows: IUnit[]
+	cols: ITrack[]
+	rows: ITrack[]
 }
 
-export interface IUnit {
+export interface ITrack {
 	id: string
-	value: string
-	min: string
-	max: string
+	value: string | null
+	min: string | null
+	max: string | null
 	minmax: boolean
 	repeat: string | number
 	isEditorOpen: boolean
 }
 
-export const defaultUnit: IUnit = {
-	id: 'def-unit',
-	value: 'auto',
-	min: '0px',
+export const defaultTrack: ITrack = {
+	id: 'def-track',
+	value: null,
+	min: '1px',
 	max: '1fr',
 	minmax: false,
 	repeat: 0,
@@ -62,13 +58,12 @@ export interface IItem {
 	name: string
 	characters: string
 	color: string
-	colStart: string
-	rowStart: string
-	colEnd: string
-	rowEnd: string
+	colStart: string | number
+	rowStart: string | number
+	colEnd: string | number
+	rowEnd: string | number
 	justifySelf: string | null
 	alignSelf: string | null
-	isEditorOpen: boolean
 }
 
 export const defaultItem: IItem = {
@@ -82,14 +77,4 @@ export const defaultItem: IItem = {
 	rowEnd: 'auto',
 	justifySelf: null,
 	alignSelf: null,
-	isEditorOpen: false,
-}
-
-export interface IActiveSelector {
-	isActive: boolean
-	item$: Atom<IItem> | null
-	startX: number | null
-	startY: number | null
-	endX: number | null
-	endY: number | null
 }

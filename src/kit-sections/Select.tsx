@@ -1,11 +1,11 @@
 import { HTMLSelect } from '@blueprintjs/core'
 import { Atom } from '@grammarly/focal'
 import * as React from 'react'
-import { MapElement } from '../../_generic/ui/MapElement'
+import { MapElement } from '../_generic/ui/MapElement'
 
 const NONE = 'default'
 
-export const GridPropSelect = ({ v$, options }: { v$: Atom<string | null>; options: string[] }) => {
+export const Select = ({ v$, options }: { v$: Atom<string | null>; options: string[] }) => {
 	return (
 		<MapElement stream={v$}>
 			{(v) => {

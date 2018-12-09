@@ -46,7 +46,7 @@ export class Overlay extends React.Component<TProps, { isOpen: boolean }> {
 						position={position}
 						targetRect={targetRect}
 						popoverRect={popoverRect}
-						arrowColor="#85afb8"
+						arrowColor="#fff"
 						arrowSize={16}
 					>
 						<div className={$.overlay}>{this.renderContent()}</div>

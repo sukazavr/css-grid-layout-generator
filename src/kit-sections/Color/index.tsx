@@ -3,7 +3,7 @@ import * as React from 'react'
 import { COLORS } from '../../_generic/supply/get-color'
 import $ from './style.scss'
 
-export const GridItemColor = ({ v$ }: { v$: Atom<string> }) => {
+export const Color = ({ v$ }: { v$: Atom<string> }) => {
 	return (
 		<div className={$.container}>
 			{COLORS.map((color) => (

@@ -1,3 +1,5 @@
+@import 'utils';
+
 .preview {
 	flex-grow: 1;
 	&.flexed {
@@ -14,8 +16,16 @@
 }
 
 .item {
+	@extend %tappable;
+	font-size: 1.2em;
+	color: #000;
+	word-break: break-all;
 	transition-property: all;
 	transition-duration: 120ms;
-	word-break: break-all;
-	color: #000;
+
+	&.active {
+		box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 3px #000;
+		background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path d="M1 2V0h1v1H0v1z" fill-opacity=".025"/></svg>');
+		background-size: 20px 20px;
+	}
 }

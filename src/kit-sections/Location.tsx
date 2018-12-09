@@ -1,21 +1,33 @@
 import { ControlGroup, HTMLSelect, NumericInput } from '@blueprintjs/core'
 import { Atom } from '@grammarly/focal'
 import * as React from 'react'
-import { MapElement } from '../../_generic/ui/MapElement'
+import { MapElement } from '../_generic/ui/MapElement'
 
-export const AUTO = 'auto'
-export const SPAN = 'span'
+const AUTO = 'auto'
+const SPAN = 'span'
 const LINE = 'line'
 const MB_OPTIONS = [LINE, SPAN, AUTO]
 
-export const GridItemLocation = ({ v$ }: { v$: Atom<string> }) => {
+export const Location = ({ v$ }: { v$: Atom<string | number> }) => {
 	return (
 		<MapElement stream={v$}>
 			{(v) => {
-				const isAuto = v === AUTO
-				const isSpan = !isAuto && v.includes(SPAN)
-				const num = isAuto ? 0 : isSpan ? Number(v.replace(SPAN, '')) : Number(v)
-				const option = isAuto ? AUTO : isSpan ? SPAN : LINE
+				let isSpan: boolean
+				let num: number
+				let option: string
+				if (v === AUTO) {
+					isSpan = false
+					num = 0
+					option = AUTO
+				} else if (typeof v === 'string') {
+					isSpan = true
+					num = Number(v.replace(SPAN, ''))
+					option = SPAN
+				} else {
+					isSpan = false
+					num = v
+					option = LINE
+				}
 				return (
 					<ControlGroup>
 						<NumericInput
@@ -28,8 +40,8 @@ export const GridItemLocation = ({ v$ }: { v$: Atom<string> }) => {
 									!nextNum || nextNum < 1
 										? AUTO
 										: isSpan
-											? `${SPAN} ${nextNum}`
-											: nextNum.toString()
+										? `${SPAN} ${nextNum}`
+										: nextNum.toString()
 								)
 							}
 							min={0}
@@ -46,8 +58,8 @@ export const GridItemLocation = ({ v$ }: { v$: Atom<string> }) => {
 									nextOption === AUTO
 										? AUTO
 										: nextOption === SPAN
-											? `${SPAN} ${nextNum}`
-											: nextNum.toString()
+										? `${SPAN} ${nextNum}`
+										: nextNum
 								)
 							}}
 							value={option}
