@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.3.0...v1.4.0) (2018-12-10)
+
+
+### Features
+
+* apply width and height if not grow ([a1c1086](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/a1c1086))
+* remove bad guides ([ff36ec2](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/ff36ec2))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.2.0...v1.3.0) (2018-12-10)
 
