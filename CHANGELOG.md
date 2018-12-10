@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.2.0...v1.3.0) (2018-12-10)
+
+
+### Bug Fixes
+
+* **general:** iconSvgPaths, select item in preview ([c6960eb](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/c6960eb))
+
+
+### Features
+
+* collect analytics events ([357de8c](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/357de8c))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.1.2...v1.2.0) (2018-12-09)
 
