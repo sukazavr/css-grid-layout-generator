@@ -4,6 +4,7 @@ import cc from 'classcat'
 import clipboardCopy from 'clipboard-copy'
 import * as React from 'react'
 import { css$, html$ } from '../preview/state'
+import { actionsShell } from '../_generic/actions'
 import { Btn } from '../_generic/ui/Btn'
 import $ from './style.scss'
 
@@ -27,7 +28,10 @@ export class GetTheCode extends React.PureComponent<{}, { isOpen: boolean }> {
 		isOpen: false,
 	}
 
-	private handleOpen = () => this.setState({ isOpen: true })
+	private handleOpen = () => {
+		actionsShell.getCode()
+		this.setState({ isOpen: true })
+	}
 	private handleClose = () => this.setState({ isOpen: false })
 
 	render() {

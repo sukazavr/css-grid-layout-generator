@@ -16,3 +16,8 @@ declare module '*.scss' {
 declare interface NodeModule {
 	hot: any
 }
+
+declare var gtag: {
+	(...args: any[]): void
+	q: any[]
+}

@@ -13,6 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const actionsShell = ga('shell', {
 	_mounted: ca(),
+	getCode: ca(),
 })
 
 export const actionsGrid = ga('grid', {

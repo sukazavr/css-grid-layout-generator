@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { getRootNode } from '../_generic/supply/get-root-node'
 import { App } from './App'
+import './analytics'
 import './blueprint.css'
 import './overrides.css'
 
