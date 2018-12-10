@@ -56,9 +56,6 @@ export const GridSettings = () => {
 				<Control>
 					<Check v$={gridSettings$.lens('isGrow')} label="Container Flex Grow" />
 				</Control>
-				<Control>
-					<Check v$={gridSettings$.lens('isGuided')} label="Render Guides As Items" />
-				</Control>
 			</Section>
 		</>
 	)

@@ -10,7 +10,6 @@ export interface IGridSettings {
 	alignContent: string | null
 	autoFlow: string | null
 	isGrow: boolean
-	isGuided: boolean
 }
 
 export const defaultGridSettings: IGridSettings = {
@@ -25,7 +24,6 @@ export const defaultGridSettings: IGridSettings = {
 	alignContent: null,
 	autoFlow: null,
 	isGrow: true,
-	isGuided: true,
 }
 
 export interface IGrid {

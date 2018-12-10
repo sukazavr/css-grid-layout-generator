@@ -1,50 +1,19 @@
-import { classes, F, lift, reactiveList, Atom } from '@grammarly/focal'
-import cc from 'classcat'
-import * as React from 'react'
-import { of } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
-import { calcLength, explicitGrid$, gridSettings$ } from '../grid/state'
-import { itemsReversed$, selectedID$ } from '../items/state'
-import { actionsItems } from '../_generic/actions'
-import { defaultItem } from '../_generic/types/common'
-import { ReactiveList } from '../_generic/ui/ReactiveList'
-import { css$, cssHighlighter$ } from './state'
-import $ from './style.scss'
+import { Atom, classes, F, lift } from '@grammarly/focal';
+import cc from 'classcat';
+import * as React from 'react';
+import { gridSettings$ } from '../grid/state';
+import { itemsReversed$, selectedID$ } from '../items/state';
+import { actionsItems } from '../_generic/actions';
+import { defaultItem } from '../_generic/types/common';
+import { ReactiveList } from '../_generic/ui/ReactiveList';
+import { css$, cssHighlighter$ } from './state';
+import $ from './style.scss';
 
 const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string }) => (
 	<style type="text/css" dangerouslySetInnerHTML={{ __html: css + cssHighlighter }} />
 ))
 
-const DIV = ':'
-const guides$ = explicitGrid$.view(({ cols, rows }) => {
-	const colsLength = calcLength(cols)
-	const rowsLength = calcLength(rows)
-	const res: string[] = []
-	for (let colIndex = 0; colIndex < colsLength; colIndex++) {
-		for (let rowIndex = 0; rowIndex < rowsLength; rowIndex++) {
-			res.push(colIndex + DIV + rowIndex)
-		}
-	}
-	return res
-})
-
 const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && ($.flexed as string))
-const renderGuides$ = gridSettings$.view('isGuided').pipe(
-	switchMap((isGuided) => {
-		if (isGuided) {
-			return reactiveList(guides$, (st) => {
-				const [px, py] = st.split(DIV)
-				const x = Number(px) + 1
-				const y = Number(py) + 1
-				return (
-					<div key={st} className={$.guide} style={{ gridColumnStart: x, gridRowStart: y }} />
-				)
-			})
-		} else {
-			return of(null)
-		}
-	})
-)
 
 export const Preview = () => {
 	return (
@@ -52,7 +21,6 @@ export const Preview = () => {
 			<CSS css={css$} cssHighlighter={cssHighlighter$} />
 			<F.div {...classes($.preview, isGrowClass$)}>
 				<F.div className={cc(['container', $.container])}>
-					{renderGuides$}
 					<ReactiveList items={itemsReversed$} defaultItem={defaultItem}>
 						{(item$, index) => {
 							const id$ = item$.view('id')
