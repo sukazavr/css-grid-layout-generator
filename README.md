@@ -13,18 +13,19 @@
 	- [ ] fit-content() notation for columns and rows
 	- [ ] Drag & Drop for columns and rows
 - Export Code
+	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
+	- [ ] Export HTML as JSX
+	- [ ] Export CSS as Styled Components
+	- [ ] Export class names as CSS Modules
 	- [ ] Syntax highlight
 	- [ ] Button "Create CodePen"
 	- [ ] Save and restore grid settings feature
-	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
 - Grid Items
 	- [ ] Opacity adjustment
 	- [ ] Support negative start/end lines
 	- [ ] Show details as CSS-rules in a tooltip
-- Area Editor
-	- [ ] Option to give names for areas
-	- [ ] Highlight potential area during selection area
-	- [ ] Overlay Guides As Items (z-index) during editor is hovered
+- Grid Editor
+	- [ ] Set custom dimension for Auto Grid
 - Big Features
 	- [ ] Conditional grid settings via CSS Media Queries
 	- [ ] Nested Grids
