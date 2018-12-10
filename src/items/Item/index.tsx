@@ -15,7 +15,7 @@ type TProps = {
 export const Item = lift(({ index, item }: TProps) => {
 	const { id, name } = item
 	const del = actionsItems.del(index)
-	const select = actionsItems.select(id)
+	const select = () => actionsItems.select(id)
 	const activeClass$ = selectedID$.view((sid) => sid === id && $.active)
 	const onMouseEnter = actionsItems.highlight(item)
 	const onMouseLeave = actionsItems.dropHighlight

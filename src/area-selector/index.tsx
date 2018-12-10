@@ -145,7 +145,8 @@ const selection$ = down$.pipe(
 			endWith(null)
 		)
 	}),
-	startWith<null | { x1: number; y1: number; x2: number; y2: number }>(null)
+	startWith<null | { x1: number; y1: number; x2: number; y2: number }>(null),
+	shareReplay(1)
 )
 
 const selectionStyle$ = selection$

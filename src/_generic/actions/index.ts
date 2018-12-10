@@ -30,7 +30,7 @@ export const actionsItems = ga('items', {
 	add: ca(),
 	del: ca<number>(null),
 	reorder: ca<{ currentIndex: number; nextIndex: number }>(),
-	select: ca<string>(null), // item.id
+	select: ca<string>(), // item.id
 	highlight: ca<IItem>(null),
 	dropHighlight: ca(),
 })

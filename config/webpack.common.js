@@ -1,4 +1,5 @@
 import webpack from 'webpack'
+import path from 'path'
 import { root, entryApp, pathPackage } from './paths'
 
 export default {
@@ -12,6 +13,10 @@ export default {
 		new webpack.DefinePlugin({
 			'process.env.VERSION': JSON.stringify(require(pathPackage).version),
 		}),
+		new webpack.NormalModuleReplacementPlugin(
+			/.*\/generated\/iconSvgPaths.*/,
+			path.resolve(__dirname, 'iconSvgPaths.js')
+		),
 	],
 	// Turn off various NodeJS environment polyfills Webpack adds to bundles.
 	// They're supposed to be added only when used, but the heuristic is loose

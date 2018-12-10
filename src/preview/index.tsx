@@ -1,4 +1,4 @@
-import { classes, F, lift, reactiveList } from '@grammarly/focal'
+import { classes, F, lift, reactiveList, Atom } from '@grammarly/focal'
 import cc from 'classcat'
 import * as React from 'react'
 import { of } from 'rxjs'
@@ -55,9 +55,13 @@ export const Preview = () => {
 					{renderGuides$}
 					<ReactiveList items={itemsReversed$} defaultItem={defaultItem}>
 						{(item$, index) => {
-							const id = item$.get().id
-							const select = actionsItems.select(id)
-							const activeClass$ = selectedID$.view((sid) => sid === id && $.active)
+							const id$ = item$.view('id')
+							const select = () => actionsItems.select(id$.get())
+							const activeClass$ = Atom.combine(
+								id$,
+								selectedID$,
+								(id, sid) => id === sid && $.active
+							)
 							return (
 								<F.div
 									key={index}
