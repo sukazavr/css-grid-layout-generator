@@ -1,19 +1,19 @@
-import { Atom, classes, F, lift } from '@grammarly/focal';
-import cc from 'classcat';
-import * as React from 'react';
-import { gridSettings$ } from '../grid/state';
-import { itemsReversed$, selectedID$ } from '../items/state';
-import { actionsItems } from '../_generic/actions';
-import { defaultItem } from '../_generic/types/common';
-import { ReactiveList } from '../_generic/ui/ReactiveList';
-import { css$, cssHighlighter$ } from './state';
-import $ from './style.scss';
+import { Atom, classes, F, lift } from '@grammarly/focal'
+import cc from 'classcat'
+import * as React from 'react'
+import { gridSettings$ } from '../grid/state'
+import { itemsReversed$, selectedID$ } from '../items/state'
+import { actionsItems } from '../_generic/actions'
+import { defaultItem } from '../_generic/types/common'
+import { ReactiveList } from '../_generic/ui/ReactiveList'
+import { css$, cssHighlighter$ } from './state'
+import $ from './style.scss'
 
 const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string }) => (
 	<style type="text/css" dangerouslySetInnerHTML={{ __html: css + cssHighlighter }} />
 ))
 
-const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && ($.flexed as string))
+const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && $.flexed)
 
 export const Preview = () => {
 	return (

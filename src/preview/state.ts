@@ -27,6 +27,7 @@ const containerCSS$ = combineLatest(gridSettings$, explicitGrid$, implicitGrid$)
 	([
 		{
 			isInline,
+			isGrow,
 			width,
 			height,
 			colGap,
@@ -43,11 +44,13 @@ const containerCSS$ = combineLatest(gridSettings$, explicitGrid$, implicitGrid$)
 		const rules: TClass = {
 			display: isInline ? 'inline-grid' : 'grid',
 		}
-		if (width) {
-			rules.width = width
-		}
-		if (height) {
-			rules.height = height
+		if (!isGrow) {
+			if (width) {
+				rules.width = width
+			}
+			if (height) {
+				rules.height = height
+			}
 		}
 		if (tracksHaveSize(cols)) {
 			rules['grid-template-columns'] = cols.map(trackSize).join(' ')

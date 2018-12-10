@@ -14,8 +14,8 @@ export interface IGridSettings {
 
 export const defaultGridSettings: IGridSettings = {
 	isInline: false,
-	width: null,
-	height: null,
+	width: '10em',
+	height: '10em',
 	colGap: '1em',
 	rowGap: '1em',
 	justifyItems: null,
