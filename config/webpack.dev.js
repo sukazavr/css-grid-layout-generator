@@ -21,8 +21,6 @@ export default merge(common, {
 		},
 		// Request paths not ending in a file extension serve index.html:
 		historyApiFallback: true,
-		// Suppress forwarding of Webpack logs to the browser console:
-		clientLogLevel: 'none',
 		// Supress the extensive stats normally printed after a dev build (since sizes are mostly useless):
 		stats: 'minimal',
 		// Don't embed an error overlay ("redbox") into the client bundle:

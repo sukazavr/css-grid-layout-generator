@@ -31,6 +31,7 @@
     "one-line": false,
     "no-namespace": false,
     "one-variable-per-declaration": false,
+    "prefer-conditional-expression": false,
     "only-arrow-functions": [true, "allow-named-functions"],
     "ordered-imports": false,
     "quotemark": [true, "single", "jsx-double", "avoid-escape"],
