@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.4.0...v1.5.0) (2018-12-12)
+
+
+### Features
+
+* add tips as (?) button ([f857f24](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/f857f24))
+* export JSX, CSS Modules, Styled Components ([c910a97](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/c910a97))
+* fit-content() notation for columns and rows ([d796c2e](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/d796c2e))
+* toggle vision of item in preview ([f693166](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/f693166))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.3.0...v1.4.0) (2018-12-10)
 
