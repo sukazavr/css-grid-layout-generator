@@ -1,6 +1,7 @@
 import { Atom } from '@grammarly/focal'
 import * as React from 'react'
 import { HLAddCol, HLAddRow, HLLeave, HLRemoveCol, HLRemoveRow } from '../grid/Highlighter'
+import { tipMinmax, tipRepeat } from '../tips'
 import { actionsGrid } from '../_generic/actions'
 import { ITrack } from '../_generic/types/common'
 import { Btn } from '../_generic/ui/Btn'
@@ -8,8 +9,8 @@ import { ShowIf } from '../_generic/ui/ShowIf'
 import { Check } from './Check'
 import { Control, Section } from './Kit'
 import $ from './Kit/style.scss'
-import { Size } from './Size'
 import { Repeat } from './Repeat'
+import { Size } from './Size'
 
 type TProps = {
 	track$: Atom<ITrack>
@@ -43,18 +44,18 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 							onClick={addBefore(track$)}
 						/>
 						<Btn
-							ico={row ? 'addAfterRow' : 'addAfterCol'}
-							transparent
-							onMouseOver={HLAdd(end)}
-							onMouseOut={HLLeave}
-							onClick={addAfter(track$)}
-						/>
-						<Btn
 							ico={row ? 'removeRow' : 'removeCol'}
 							transparent
 							onMouseOver={HLRemove({ start, end })}
 							onMouseOut={HLLeave}
 							onClick={remove(track$)}
+						/>
+						<Btn
+							ico={row ? 'addAfterRow' : 'addAfterCol'}
+							transparent
+							onMouseOver={HLAdd(end)}
+							onMouseOut={HLLeave}
+							onClick={addAfter(track$)}
 						/>
 					</div>
 				</Control>
@@ -79,13 +80,13 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 						</>
 					)}
 				</ShowIf>
-				<Control>
+				<Control tip={tipMinmax}>
 					<Check v$={minmax$} label="minmax()" />
 				</Control>
 			</Section>
 			{repeat && (
 				<Section>
-					<Control label="repeat()">
+					<Control label="repeat()" tip={tipRepeat}>
 						<Repeat v$={repeat$} />
 					</Control>
 				</Section>

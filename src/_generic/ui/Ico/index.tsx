@@ -9,7 +9,7 @@ type TProps = {
 export class Ico extends React.PureComponent<TProps> {
 	render() {
 		return (
-			<svg width="2em" height="2em" viewBox="0 0 40 40" fill={this.props.fill}>
+			<svg width="2em" height="2em" viewBox="0 0 40 40" fill={this.props.fill || 'currentColor'}>
 				<g>
 					<path d={icons[this.props.ico]} />
 				</g>

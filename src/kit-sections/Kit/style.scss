@@ -9,7 +9,6 @@
 
 .control {
 	display: flex;
-	flex-direction: column;
 	& + & {
 		margin-top: 1em;
 	}
@@ -24,6 +23,22 @@
 	h2,
 	h3 {
 		margin: 0;
+	}
+	.ctrl {
+		flex-grow: 1;
+		align-self: flex-end;
+		display: flex;
+		flex-direction: column;
+	}
+	.tip {
+		flex-shrink: 0;
+		align-self: flex-start;
+		font-size: 0.65em;
+		color: #7b7690;
+		&.active,
+		&:hover {
+			color: #ff9b70;
+		}
 	}
 }
 

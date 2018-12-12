@@ -6,6 +6,7 @@ import { Control, Section } from './Kit'
 import { Location } from './Location'
 import { Name } from './Name'
 import { Select } from './Select'
+import { tipJustifySelf, tipAlignSelf } from '../tips'
 
 const SAJ_OPTIONS = ['start', 'end', 'center', 'stretch']
 
@@ -24,8 +25,6 @@ export const ItemSettings = () => {
 				<Control label="Column End">
 					<Location v$={selectedItem$.lens('colEnd')} />
 				</Control>
-			</Section>
-			<Section>
 				<Control label="Row Start">
 					<Location v$={selectedItem$.lens('rowStart')} />
 				</Control>
@@ -34,10 +33,10 @@ export const ItemSettings = () => {
 				</Control>
 			</Section>
 			<Section>
-				<Control label="Justify Self">
+				<Control label="Justify Self" tip={tipJustifySelf}>
 					<Select v$={selectedItem$.lens('justifySelf')} options={SAJ_OPTIONS} />
 				</Control>
-				<Control label="Align Self">
+				<Control label="Align Self" tip={tipAlignSelf}>
 					<Select v$={selectedItem$.lens('alignSelf')} options={SAJ_OPTIONS} />
 				</Control>
 			</Section>

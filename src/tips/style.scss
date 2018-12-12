@@ -1,0 +1,43 @@
+.container {
+	width: 18em;
+	padding: 0.8em;
+}
+
+.tip {
+	font-size: 1.1em;
+	em {
+		color: #fff;
+		font-weight: 700;
+	}
+	code {
+		background-color: #3b3c4c;
+		border: 1px solid #807c94;
+		font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+		font-size: 0.75rem;
+		line-height: 0.75rem;
+		color: #ffccb6;
+		padding: 1px 3px 2px;
+		white-space: nowrap;
+		font-variant-ligatures: none;
+		tab-size: 4;
+		border-radius: 0.3em;
+	}
+}
+
+.url {
+	margin-top: 0.8em;
+	label {
+		display: block;
+		font-size: 0.9em;
+		font-weight: 700;
+		color: #8d8e9a;
+	}
+	a {
+		font-size: 0.8em;
+		padding: 0.2em 0;
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+}

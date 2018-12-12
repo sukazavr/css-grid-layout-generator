@@ -1,60 +1,63 @@
+import { Atom } from '@grammarly/focal'
 import * as React from 'react'
 import Popover, { ArrowContainer, Position } from 'react-tiny-popover'
-import { Atom } from '@grammarly/focal'
-import { Subscription } from 'rxjs'
+import { MapElement } from '../MapElement'
 import $ from './style.scss'
+import { Btn } from '../Btn'
 
 type TProps = {
 	isOpen$: Atom<boolean>
 	position: Position[]
-	content: () => JSX.Element
+	content: () => React.ReactNode
+	stopPropagation?: boolean
 	children: JSX.Element
 }
 
-export class Overlay extends React.Component<TProps, { isOpen: boolean }> {
-	state = { isOpen: this.props.isOpen$.get() }
-	isOpenSub: Subscription
-	componentDidMount() {
-		this.isOpenSub = this.props.isOpen$.subscribe((v) => {
-			this.setState((c) => (c.isOpen === v ? c : { isOpen: v }))
-		})
+export const Overlay = ({
+	isOpen$,
+	position,
+	content,
+	children,
+	stopPropagation = false,
+}: TProps) => {
+	const close = () => isOpen$.set(false)
+	let onContainerClick: ((e: React.MouseEvent<HTMLDivElement>) => void) | undefined
+	if (stopPropagation) {
+		onContainerClick = (e) => {
+			e.stopPropagation()
+		}
 	}
-	componentWillUnmount() {
-		this.isOpenSub.unsubscribe()
-	}
-	closeMenu = () => {
-		this.props.isOpen$.set(false)
-	}
-	renderHandler() {
-		return this.props.children
-	}
-	renderContent() {
-		return this.props.content()
-	}
-	render() {
-		return (
-			<Popover
-				isOpen={this.state.isOpen}
-				position={this.props.position}
-				align="start"
-				disableReposition={true}
-				transitionDuration={0.12}
-				padding={2}
-				onClickOutside={this.closeMenu}
-				content={({ position, targetRect, popoverRect }) => (
-					<ArrowContainer
-						position={position}
-						targetRect={targetRect}
-						popoverRect={popoverRect}
-						arrowColor="#fff"
-						arrowSize={16}
-					>
-						<div className={$.overlay}>{this.renderContent()}</div>
-					</ArrowContainer>
-				)}
-			>
-				{this.renderHandler()}
-			</Popover>
-		)
-	}
+	return (
+		<MapElement stream={isOpen$}>
+			{(isOpen) => (
+				<Popover
+					isOpen={isOpen}
+					position={position}
+					align="center"
+					transitionDuration={0.2}
+					padding={2}
+					windowBorderPadding={16}
+					onClickOutside={close}
+					content={({ position: pos, targetRect, popoverRect }) => (
+						<ArrowContainer
+							position={pos}
+							targetRect={targetRect}
+							popoverRect={popoverRect}
+							arrowColor="#4c4a56"
+							arrowSize={10}
+						>
+							<div className={$.overlay} onClick={onContainerClick}>
+								<div className={$.close}>
+									<Btn transparent ico="close" onClick={close} />
+								</div>
+								{content()}
+							</div>
+						</ArrowContainer>
+					)}
+				>
+					{children}
+				</Popover>
+			)}
+		</MapElement>
+	)
 }

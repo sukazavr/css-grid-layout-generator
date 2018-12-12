@@ -1,7 +1,27 @@
 .overlay {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	padding: 0 0.2em 0.2em;
+	padding: 0.1em 0.3em 0.3em;
 	background: #4c4a56;
-	border: 1px solid #fff;
+	border-radius: 0.2em;
+	box-shadow: 0 0 0 1px #3c444a, 0 4px 8px rgba(16, 22, 26, 0.5),
+		0 18px 46px 6px rgba(16, 22, 26, 0.5);
+}
+
+.close {
+	position: absolute;
+	display: flex;
+	right: -8px;
+	top: -8px;
+	font-size: 0.6em;
+	color: #8ebec7;
+	background: #4c4a56;
+	border-radius: 50%;
+	transition-duration: 120ms;
+	transition-property: background;
+	box-shadow: 0px 0.5em 1.6em 0 #3b3c4c;
+	&:hover {
+		background: #5e587b;
+	}
 }

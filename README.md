@@ -30,7 +30,7 @@
 	- [ ] Conditional grid settings via CSS Media Queries
 	- [ ] Nested Grids
 - Other
-	- [ ] Tips everywhere as (?) button
+	- [x] Tips everywhere as (?) button
 	- [ ] Solution for small screen devices
 	- [ ] Support for touch screen devices
 	- [ ] Persist grid settings (Local Storage)

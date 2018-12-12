@@ -96,7 +96,7 @@ export const Shell = () => {
 							settingsPanel$.view((v) => v !== ESettingPanel.Grid && $.tabBtn)
 						)}
 					>
-						Grid Settings
+						Container Settings
 					</F.div>
 				</div>
 				<div className={$.content}>

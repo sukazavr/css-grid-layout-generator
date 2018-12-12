@@ -8,10 +8,12 @@
 	font-size: 1em;
 	line-height: 1.1em;
 	background: transparent;
-	color: black;
+	color: inherit;
 	border: 0;
 	box-sizing: border-box;
 	min-height: 3em;
+	transition-property: background, color;
+	transition-duration: 120ms;
 
 	.ico {
 		flex-shrink: 0;
@@ -53,8 +55,6 @@
 	border: solid 1px #2b3bb6;
 	border-radius: 0.3em;
 	box-shadow: inset 0px 1px 0px 0px #90ace0;
-	transition-property: background, color;
-	transition-duration: 120ms;
 	&:hover {
 		background: #5c6ad6;
 	}

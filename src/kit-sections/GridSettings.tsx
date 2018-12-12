@@ -5,6 +5,16 @@ import { Control, Section } from './Kit'
 import { Size } from './Size'
 import { Select } from './Select'
 import { ShowIf } from '../_generic/ui/ShowIf'
+import {
+	tipContainerFlexGrow,
+	tipInlineGrid,
+	tipJustifyItems,
+	tipAlignItems,
+	tipJustifyContent,
+	tipAlignContent,
+	tipAutoFlow,
+	tipGap,
+} from '../tips'
 
 const IAJ_OPTIONS = ['start', 'end', 'center', 'stretch']
 const CAJ_OPTIONS = [...IAJ_OPTIONS, 'space-around', 'space-between', 'space-evenly']
@@ -15,10 +25,10 @@ export const GridSettings = () => {
 	return (
 		<>
 			<Section>
-				<Control>
+				<Control tip={tipInlineGrid}>
 					<Check v$={gridSettings$.lens('isInline')} label="Inline Grid" />
 				</Control>
-				<Control>
+				<Control tip={tipContainerFlexGrow}>
 					<Check v$={isGrow$} label="Container Flex Grow" />
 				</Control>
 				<ShowIf value={isGrow$} eq={false}>
@@ -35,23 +45,23 @@ export const GridSettings = () => {
 				</ShowIf>
 			</Section>
 			<Section>
-				<Control label="Justify Items">
+				<Control label="Justify Items" tip={tipJustifyItems}>
 					<Select v$={gridSettings$.lens('justifyItems')} options={IAJ_OPTIONS} />
 				</Control>
-				<Control label="Align Items">
+				<Control label="Align Items" tip={tipAlignItems}>
 					<Select v$={gridSettings$.lens('alignItems')} options={IAJ_OPTIONS} />
 				</Control>
 			</Section>
 			<Section>
-				<Control label="Justify Content">
+				<Control label="Justify Content" tip={tipJustifyContent}>
 					<Select v$={gridSettings$.lens('justifyContent')} options={CAJ_OPTIONS} />
 				</Control>
-				<Control label="Align Content">
+				<Control label="Align Content" tip={tipAlignContent}>
 					<Select v$={gridSettings$.lens('alignContent')} options={CAJ_OPTIONS} />
 				</Control>
 			</Section>
 			<Section>
-				<Control label="Column Gap">
+				<Control label="Column Gap" tip={tipGap}>
 					<Size v$={gridSettings$.lens('colGap')} />
 				</Control>
 				<Control label="Row Gap">
@@ -59,7 +69,7 @@ export const GridSettings = () => {
 				</Control>
 			</Section>
 			<Section>
-				<Control label="Auto Flow">
+				<Control label="Auto Flow" tip={tipAutoFlow}>
 					<Select v$={gridSettings$.lens('autoFlow')} options={AF_OPTIONS} />
 				</Control>
 			</Section>

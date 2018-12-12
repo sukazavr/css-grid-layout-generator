@@ -131,7 +131,7 @@ export class Grid extends React.PureComponent<TProps> {
 						<Overlay
 							key={key}
 							isOpen$={isOpen$}
-							position={['bottom', 'right', 'left', 'top']}
+							position={['bottom']}
 							content={() => (
 								<TrackSettings
 									track$={col$}
@@ -161,7 +161,7 @@ export class Grid extends React.PureComponent<TProps> {
 						<Overlay
 							key={key}
 							isOpen$={isOpen$}
-							position={['right', 'top', 'bottom', 'left']}
+							position={['right', 'left']}
 							content={() => (
 								<TrackSettings
 									track$={row$}
