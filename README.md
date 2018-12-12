@@ -12,11 +12,11 @@
 	- [x] repeat() notation for columns and rows
 	- [x] fit-content() notation for columns and rows
 - Export Code
-	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
-	- [ ] Export HTML as JSX
-	- [ ] Export CSS as Styled Components
-	- [ ] Export class names as CSS Modules
+	- [x] Export HTML as JSX
+	- [x] Export CSS as Styled Components
+	- [x] Export class names as CSS Modules
 	- [ ] Syntax highlight
+	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
 	- [ ] Button "Create CodePen"
 	- [ ] Save and restore grid settings feature
 - Grid Items

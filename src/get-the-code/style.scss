@@ -1,12 +1,6 @@
-.body {
+.split {
 	display: flex;
-}
-
-.css {
-	flex-grow: 2;
-	margin-right: 2em;
-}
-
-.html {
-	flex-grow: 1;
+	> div + div {
+		margin-left: 2em;
+	}
 }

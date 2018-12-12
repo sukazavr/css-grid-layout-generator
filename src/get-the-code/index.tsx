@@ -1,9 +1,8 @@
-import { Button, Classes, Dialog, H4 } from '@blueprintjs/core'
+import { Button, Classes, Dialog, H4, Tab, Tabs } from '@blueprintjs/core'
 import { lift } from '@grammarly/focal'
-import cc from 'classcat'
 import clipboardCopy from 'clipboard-copy'
 import * as React from 'react'
-import { css$, html$ } from '../preview/state'
+import { css$, html$, jsxCSSModules$, jsxPlain$, styledComponents$ } from '../preview/state'
 import { actionsShell } from '../_generic/actions'
 import { Btn } from '../_generic/ui/Btn'
 import $ from './style.scss'
@@ -39,24 +38,20 @@ export class GetTheCode extends React.PureComponent<{}, { isOpen: boolean }> {
 			<>
 				<Btn onClick={this.handleOpen} label="Get The Code" special />
 				<Dialog onClose={this.handleClose} {...modalProps} {...this.state}>
-					<div className={cc([Classes.DIALOG_BODY, $.body])}>
-						<div className={$.css}>
-							<Code lang="css" code={css$} />
-						</div>
-						<div className={$.html}>
-							<Code lang="html" code={html$} />
-						</div>
+					<div className={Classes.DIALOG_BODY}>
+						<Tabs id="code" defaultSelectedTabId="General" large renderActiveTabPanelOnly>
+							<Tab id="General" title="General" panel={<General />} />
+							<Tab id="JSX" title="JSX" panel={<JSX />} />
+							<Tab
+								id="StyledComponents"
+								title="Styled Components"
+								panel={<StyledComponents />}
+							/>
+						</Tabs>
 					</div>
 					<div className={Classes.DIALOG_FOOTER}>
 						<div className={Classes.DIALOG_FOOTER_ACTIONS}>
 							<Button onClick={this.handleClose}>Close</Button>
-							{/* <AnchorButton
-								intent={Intent.PRIMARY}
-								href="https://www.palantir.com/palantir-foundry/"
-								target="_blank"
-							>
-								Visit the Foundry website
-							</AnchorButton> */}
 						</div>
 					</div>
 				</Dialog>
@@ -64,6 +59,30 @@ export class GetTheCode extends React.PureComponent<{}, { isOpen: boolean }> {
 		)
 	}
 }
+
+const General = () => (
+	<div className={$.split}>
+		<div style={{ flexGrow: 2 }}>
+			<Code lang="css" code={css$} />
+		</div>
+		<div style={{ flexGrow: 1 }}>
+			<Code lang="html" code={html$} />
+		</div>
+	</div>
+)
+
+const JSX = () => (
+	<div className={$.split}>
+		<div style={{ flexGrow: 1 }}>
+			<Code lang="Plain" code={jsxPlain$} />
+		</div>
+		<div style={{ flexGrow: 1 }}>
+			<Code lang="CSS Modules" code={jsxCSSModules$} />
+		</div>
+	</div>
+)
+
+const StyledComponents = () => <Code lang="Styled Components" code={styledComponents$} />
 
 const Code = lift(({ lang, code }: { lang: string; code: string }) => {
 	return (
@@ -77,7 +96,9 @@ const Code = lift(({ lang, code }: { lang: string; code: string }) => {
 				label="Copy To Clipboard"
 				onClick={() => clipboardCopy(code)}
 			/>
-			<pre className={Classes.CODE_BLOCK}>{code}</pre>
+			<pre className={Classes.CODE_BLOCK} style={{ tabSize: 4 }}>
+				{code}
+			</pre>
 		</>
 	)
 })
