@@ -9,11 +9,16 @@
 
 	.name {
 		flex-grow: 1;
-		padding: 0.7em;
+		padding: 0.65em 0;
 		word-break: break-all;
 	}
 
-	.ctrl {
+	.vision {
+		flex-shrink: 0;
+		font-size: 0.7em;
+	}
+
+	.remove {
 		flex-shrink: 0;
 		font-size: 0.8em;
 		opacity: 0;
@@ -27,7 +32,7 @@
 
 	&:hover {
 		background: rgba(226, 227, 232, 0.17);
-		.ctrl {
+		.remove {
 			opacity: 1;
 		}
 	}

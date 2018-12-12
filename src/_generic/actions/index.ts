@@ -32,6 +32,7 @@ export const actionsItems = ga('items', {
 	del: ca<number>(null),
 	reorder: ca<{ currentIndex: number; nextIndex: number }>(),
 	select: ca<string>(), // item.id
-	highlight: ca<IItem>(null),
+	toggleVision: ca<number>(null), // item index
+	highlight: ca<string>(null), // item.name
 	dropHighlight: ca(),
 })

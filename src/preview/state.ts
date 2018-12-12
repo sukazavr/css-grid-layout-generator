@@ -171,7 +171,7 @@ export const jsxCSSModules$ = itemsReversed$.map((items) => {
 
 export const cssHighlighter$: Observable<string> = merge(
 	actionsItems.highlight.$.map(
-		({ name }) => `.${name} {
+		(name) => `.${name} {
 	z-index: 99;
 	box-shadow:
 		inset 0px 0px 0px 2px #fff,

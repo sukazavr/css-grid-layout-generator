@@ -49,16 +49,10 @@ let counter = 1
 const createItem = () => {
 	const id = `item-${counter++}`
 	const newItem: IItem = {
+		...defaultItem,
 		id,
 		name: id,
-		characters: '',
 		color: getColor(),
-		colStart: 1,
-		rowStart: 1,
-		colEnd: 2,
-		rowEnd: 2,
-		justifySelf: null,
-		alignSelf: null,
 	}
 	return newItem
 }
@@ -99,4 +93,13 @@ actionsItems.reorder.$.subscribe(({ currentIndex, nextIndex }) => {
 
 actionsItems.select.$.subscribe((itemID) => {
 	selectedID$.set(itemID)
+})
+
+actionsItems.toggleVision.$.subscribe((index) => {
+	items$.modify((items) => {
+		const item = items[index]
+		const nextItems = [...items]
+		nextItems.splice(index, 1, { ...item, isHidden: !item.isHidden })
+		return nextItems
+	})
 })

@@ -13,11 +13,12 @@ type TProps = {
 }
 
 export const Item = lift(({ index, item }: TProps) => {
-	const { id, name } = item
+	const { id, name, isHidden } = item
 	const del = actionsItems.del(index)
 	const select = () => actionsItems.select(id)
 	const activeClass$ = selectedID$.view((sid) => sid === id && $.active)
-	const onMouseEnter = actionsItems.highlight(item)
+	const toggleVision = actionsItems.toggleVision(index)
+	const onMouseEnter = actionsItems.highlight(name)
 	const onMouseLeave = actionsItems.dropHighlight
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -30,10 +31,18 @@ export const Item = lift(({ index, item }: TProps) => {
 					onMouseEnter={onMouseEnter}
 					onMouseLeave={onMouseLeave}
 				>
+					<div className={$.vision}>
+						<Btn
+							ico={isHidden ? 'invisible' : 'visible'}
+							icoFill={isHidden ? '#efa666' : '#373644'}
+							transparent
+							onClick={toggleVision}
+						/>
+					</div>
 					<div className={$.name} onClick={select}>
 						{name}
 					</div>
-					<div className={$.ctrl}>
+					<div className={$.remove}>
 						<Btn ico="remove" icoFill="#8d8e9a" transparent onClick={del} />
 					</div>
 				</F.div>

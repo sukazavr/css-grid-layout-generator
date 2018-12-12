@@ -64,6 +64,7 @@ export interface IItem {
 	rowEnd: string | number
 	justifySelf: string | null
 	alignSelf: string | null
+	isHidden: boolean
 }
 
 export const defaultItem: IItem = {
@@ -71,10 +72,11 @@ export const defaultItem: IItem = {
 	name: 'def-item',
 	characters: '',
 	color: 'red',
-	colStart: 'auto',
-	rowStart: 'auto',
-	colEnd: 'auto',
-	rowEnd: 'auto',
+	colStart: 1,
+	rowStart: 1,
+	colEnd: 2,
+	rowEnd: 2,
 	justifySelf: null,
 	alignSelf: null,
+	isHidden: false,
 }

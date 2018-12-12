@@ -15,13 +15,15 @@ const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string
 
 const isGrowClass$ = gridSettings$.view(({ isGrow }) => isGrow && $.flexed)
 
+const items$ = itemsReversed$.view((items) => items.filter((item) => !item.isHidden))
+
 export const Preview = () => {
 	return (
 		<>
 			<CSS css={css$} cssHighlighter={cssHighlighter$} />
 			<F.div {...classes($.preview, isGrowClass$)}>
 				<F.div className={cc(['container', $.container])}>
-					<ReactiveList items={itemsReversed$} defaultItem={defaultItem}>
+					<ReactiveList items={items$} defaultItem={defaultItem}>
 						{(item$, index) => {
 							const id$ = item$.view('id')
 							const select = () => actionsItems.select(id$.get())
