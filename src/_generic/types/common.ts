@@ -37,6 +37,7 @@ export interface ITrack {
 	min: string | null
 	max: string | null
 	minmax: boolean
+	fitContent: boolean
 	repeat: string | number
 	isEditorOpen: boolean
 }
@@ -47,6 +48,7 @@ export const defaultTrack: ITrack = {
 	min: '1px',
 	max: '1fr',
 	minmax: false,
+	fitContent: false,
 	repeat: 0,
 	isEditorOpen: false,
 }

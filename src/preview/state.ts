@@ -6,8 +6,15 @@ import { actionsItems } from '../_generic/actions'
 import { ITrack } from '../_generic/types/common'
 import { NTA } from '../_generic/supply/utils'
 
-const trackSize = ({ value, min, max, minmax, repeat }: ITrack) => {
-	let size = minmax ? `minmax(${NTA(min)}, ${NTA(max)})` : NTA(value)
+const trackSize = ({ value, min, max, minmax, fitContent, repeat }: ITrack) => {
+	let size: string
+	if (minmax) {
+		size = `minmax(${NTA(min)}, ${NTA(max)})`
+	} else if (fitContent) {
+		size = `fit-content(${NTA(value)})`
+	} else {
+		size = NTA(value)
+	}
 	if (repeat) {
 		size = `repeat(${repeat}, ${size})`
 	}

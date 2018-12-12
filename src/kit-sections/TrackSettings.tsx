@@ -1,7 +1,7 @@
-import { Atom } from '@grammarly/focal'
+import { Atom, Lens } from '@grammarly/focal'
 import * as React from 'react'
 import { HLAddCol, HLAddRow, HLLeave, HLRemoveCol, HLRemoveRow } from '../grid/Highlighter'
-import { tipMinmax, tipRepeat } from '../tips'
+import { tipMinmax, tipRepeat, tipFitContent } from '../tips'
 import { actionsGrid } from '../_generic/actions'
 import { ITrack } from '../_generic/types/common'
 import { Btn } from '../_generic/ui/Btn'
@@ -24,7 +24,8 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 	const value$ = track$.lens('value')
 	const min$ = track$.lens('min')
 	const max$ = track$.lens('max')
-	const minmax$ = track$.lens('minmax')
+	const minmax$ = track$.lens(makeMonoLens('minmax', 'fitContent'))
+	const fitContent$ = track$.lens(makeMonoLens('fitContent', 'minmax'))
 	const repeat$ = track$.lens('repeat')
 	const addBefore = row ? actionsGrid.addBeforeRow : actionsGrid.addBeforeCol
 	const addAfter = row ? actionsGrid.addAfterRow : actionsGrid.addAfterCol
@@ -83,6 +84,9 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 				<Control tip={tipMinmax}>
 					<Check v$={minmax$} label="minmax()" />
 				</Control>
+				<Control tip={tipFitContent}>
+					<Check v$={fitContent$} label="fit-content()" />
+				</Control>
 			</Section>
 			{repeat && (
 				<Section>
@@ -94,3 +98,9 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 		</>
 	)
 }
+
+const makeMonoLens = (orig: string, reflection: string) =>
+	Lens.create(
+		(track: ITrack) => track[orig] as boolean,
+		(value, track) => ({ ...track, [orig]: value, [reflection]: track[reflection] && false })
+	)

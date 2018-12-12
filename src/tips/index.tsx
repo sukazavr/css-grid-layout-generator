@@ -93,6 +93,17 @@ export const tipRepeat = () => (
 	</Tip>
 )
 
+export const tipFitContent = () => (
+	<Tip url="https://developer.mozilla.org/en-US/docs/Web/CSS/fit-content">
+		⚠ This is an experimental technology
+		<hr />
+		Represents the formula <code>min(max-content, max(auto, argument))</code>, which is calculated
+		similar to <code>auto</code> (i.e. <code>minmax(auto, max-content)</code>), except that the
+		track size is clamped at <em>argument</em> if it is greater than the <code>auto</code>{' '}
+		minimum.
+	</Tip>
+)
+
 export const tipMinmax = () => (
 	<Tip url="https://developer.mozilla.org/en-US/docs/Web/CSS/minmax">
 		The <code>minmax()</code> CSS function defines a size range greater than or equal to{' '}

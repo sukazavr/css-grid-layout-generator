@@ -12,8 +12,15 @@ import { Highlighter } from './Highlighter'
 import { calcLength, packTrackKeys, parseTrackKey } from './state'
 import $ from './style.scss'
 
-const getTrackTitle = ({ value, min, max, minmax, repeat }: ITrack) => {
-	let title = minmax ? `${NTA(min)}→${NTA(max)}` : NTA(value)
+const trackTitle = ({ value, min, max, minmax, fitContent, repeat }: ITrack) => {
+	let title: string
+	if (minmax) {
+		title = `${NTA(min)}→${NTA(max)}`
+	} else if (fitContent) {
+		title = `fit(${NTA(value)})`
+	} else {
+		title = NTA(value)
+	}
 	if (repeat) {
 		title = `${repeat}${typeof repeat === 'number' ? '×' : ''} ${title}`
 	}
@@ -125,7 +132,7 @@ export class Grid extends React.PureComponent<TProps> {
 				{reactiveList(colsKeys$, (key) => {
 					const [index, gridColumnStart, gridColumnEnd] = parseTrackKey(key)
 					const col$ = getTrackByIndex(this.cols$, index)
-					const title$ = col$.view(getTrackTitle)
+					const title$ = col$.view(trackTitle)
 					const isOpen$ = col$.lens('isEditorOpen')
 					return (
 						<Overlay
@@ -155,7 +162,7 @@ export class Grid extends React.PureComponent<TProps> {
 				{reactiveList(rowsKeys$, (key) => {
 					const [index, gridRowStart, gridRowEnd] = parseTrackKey(key)
 					const row$ = getTrackByIndex(this.rows$, index)
-					const title$ = row$.view(getTrackTitle)
+					const title$ = row$.view(trackTitle)
 					const isOpen$ = row$.lens('isEditorOpen')
 					return (
 						<Overlay

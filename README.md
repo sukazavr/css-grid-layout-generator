@@ -10,8 +10,7 @@
 - Soon
 	- [x] Auto-generated grid tracks (aka implicit grid tracks)
 	- [x] repeat() notation for columns and rows
-	- [ ] fit-content() notation for columns and rows
-	- [ ] Drag & Drop for columns and rows
+	- [x] fit-content() notation for columns and rows
 - Export Code
 	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
 	- [ ] Export HTML as JSX
@@ -31,6 +30,7 @@
 	- [ ] Nested Grids
 - Other
 	- [x] Tips everywhere as (?) button
+	- [ ] Drag & Drop for columns and rows
 	- [ ] Solution for small screen devices
 	- [ ] Support for touch screen devices
 	- [ ] Persist grid settings (Local Storage)
