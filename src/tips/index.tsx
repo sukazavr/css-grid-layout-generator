@@ -80,7 +80,7 @@ export const tipInlineGrid = () => (
 
 export const tipContainerFlexGrow = () => (
 	<Tip>
-		If <em>enabled</em>, the container tends to fill the entire horizontal space of the preview
+		If <em>enabled</em>, the container tends to fill the entire space of the preview
 		window. If <em>disabled</em>, the size of the container can be customized manually.
 	</Tip>
 )
