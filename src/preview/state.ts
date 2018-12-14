@@ -107,9 +107,25 @@ const containerCSS$ = combineLatest(gridSettings$, explicitGrid$, implicitGrid$)
 const itemsCSS$ = itemsReversed$.pipe(
 	map((items) => {
 		return items.reduce<{ [name: string]: TClass }>((acc, item) => {
-			const { name, colStart, rowStart, colEnd, rowEnd, justifySelf, alignSelf } = item
-			const rules = {
+			const {
+				name,
+				width,
+				height,
+				colStart,
+				rowStart,
+				colEnd,
+				rowEnd,
+				justifySelf,
+				alignSelf,
+			} = item
+			const rules: TClass = {
 				'grid-area': `${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`,
+			}
+			if (width) {
+				rules.width = width
+			}
+			if (height) {
+				rules.height = height
 			}
 			if (justifySelf && alignSelf) {
 				rules['place-self'] = alignSelf + ' ' + justifySelf

@@ -1,10 +1,63 @@
+@import 'utils';
+
 .section {
 	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
-	margin-top: 0.2em;
-	padding: 1em;
+	margin-top: 0.4em;
 	background: #3b3c4c;
+	.content {
+		padding: 1em;
+	}
+	.header {
+		@extend %tappable;
+		position: relative;
+		padding: 0.5em 1em;
+		background: #2e2f40;
+		transition-duration: 120ms;
+		transition-property: background, transform;
+		.title {
+			color: #7b7690;
+			font-size: 1.1em;
+			font-weight: 700;
+		}
+		.subtitle {
+			font-size: 0.8em;
+			font-weight: 700;
+			color: #7e90a0;
+		}
+		& + .content {
+			box-shadow: inset 0 1px 0 0 #000, inset 0 2px 0 0 #504c65;
+		}
+		&:before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: 0.2em;
+			top: 1.15em;
+			width: 0;
+			height: 0;
+			font-size: 0.9em;
+			border-width: 0.3076923076923077em 0.3076923076923077em 0;
+			border-style: solid;
+			border-color: #858296 transparent transparent;
+			transform: rotate(-90deg);
+			transition-duration: 120ms;
+			transition-property: border, transform;
+		}
+		&.active {
+			.title {
+				color: #9695a2;
+			}
+			&:before {
+				border-color: #a59eb9 transparent transparent;
+				transform: rotate(0);
+			}
+		}
+		&:hover {
+			background: #33344a;
+		}
+	}
 }
 
 .control {

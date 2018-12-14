@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { selectedItem$ } from '../items/state'
+import { tipAlignSelf, tipJustifySelf } from '../tips'
 import { Characters } from './Characters'
 import { Color } from './Color'
 import { Control, Section } from './Kit'
 import { Location } from './Location'
 import { Name } from './Name'
 import { Select } from './Select'
-import { tipJustifySelf, tipAlignSelf } from '../tips'
+import { Size } from './Size'
 
 const SAJ_OPTIONS = ['start', 'end', 'center', 'stretch']
 
@@ -19,6 +20,20 @@ export const ItemSettings = () => {
 				</Control>
 			</Section>
 			<Section>
+				<Control label="Width">
+					<Size v$={selectedItem$.lens('width')} special />
+				</Control>
+				<Control label="Height">
+					<Size v$={selectedItem$.lens('height')} special />
+				</Control>
+			</Section>
+			<Section
+				title="Grid Area"
+				subtitle={selectedItem$.map(
+					({ colStart, rowStart, colEnd, rowEnd }) =>
+						`${rowStart} / ${colStart} / ${rowEnd} / ${colEnd}`
+				)}
+			>
 				<Control label="Column Start">
 					<Location v$={selectedItem$.lens('colStart')} />
 				</Control>

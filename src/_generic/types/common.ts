@@ -58,6 +58,8 @@ export interface IItem {
 	name: string
 	characters: string
 	color: string
+	width: string | null
+	height: string | null
 	colStart: string | number
 	rowStart: string | number
 	colEnd: string | number
@@ -72,6 +74,8 @@ export const defaultItem: IItem = {
 	name: 'def-item',
 	characters: '',
 	color: 'red',
+	width: null,
+	height: null,
 	colStart: 1,
 	rowStart: 1,
 	colEnd: 2,

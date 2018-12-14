@@ -19,6 +19,7 @@ export const Name = ({ v$ }: { v$: Atom<string> }) => {
 							key={v}
 							defaultValue={v}
 							maxLength={64}
+							minWidth={200}
 							selectAllOnFocus={true}
 							onConfirm={(nextName) => {
 								nextName = identify(nextName)

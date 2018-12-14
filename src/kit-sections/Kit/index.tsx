@@ -3,13 +3,39 @@ import * as React from 'react'
 import { Btn } from '../../_generic/ui/Btn'
 import { Overlay } from '../../_generic/ui/Overlay'
 import $ from './style.scss'
+import { Observable } from 'rxjs'
+import { ShowIf } from '../../_generic/ui/ShowIf'
 
 type TSectionProps = {
+	title?: string
+	subtitle?: Observable<string>
 	children: React.ReactNode
 }
 
-export const Section = ({ children }: TSectionProps) => {
-	return <div className={$.section}>{children}</div>
+export const Section = ({ title, subtitle, children }: TSectionProps) => {
+	if (title) {
+		const isOpen$ = Atom.create(false)
+		return (
+			<div className={$.section}>
+				<F.div
+					{...classes($.header, isOpen$.map((v) => v && $.active))}
+					onClick={() => isOpen$.modify((v) => !v)}
+				>
+					<div className={$.title}>{title}</div>
+					{subtitle && <F.div className={$.subtitle}>{subtitle}</F.div>}
+				</F.div>
+				<ShowIf value={isOpen$} eq={true}>
+					{() => <div className={$.content}>{children}</div>}
+				</ShowIf>
+			</div>
+		)
+	} else {
+		return (
+			<div className={$.section}>
+				<div className={$.content}>{children}</div>
+			</div>
+		)
+	}
 }
 
 type TControlProps = {
