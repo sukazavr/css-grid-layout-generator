@@ -2,15 +2,15 @@ import { Atom } from '@grammarly/focal'
 import * as React from 'react'
 import { merge, Observable, Subscription } from 'rxjs'
 import { map, withLatestFrom } from 'rxjs/operators'
-import { ca } from '../../_generic/supply/action-helpers'
-import { MapElement } from '../../_generic/ui/MapElement'
+import { ca } from '../_generic/supply/action-helpers'
+import { MapElement } from '../_generic/ui/MapElement'
 import $ from './style.scss'
 
 export const HLLeave = ca()
-export const HLAddRow = ca<number>(null)
-export const HLAddCol = ca<number>(null)
-export const HLRemoveRow = ca<{ start: number; end: number }>(null)
-export const HLRemoveCol = ca<{ start: number; end: number }>(null)
+export const HLAddRow = ca<number>()
+export const HLAddCol = ca<number>()
+export const HLRemoveRow = ca<[number, number]>()
+export const HLRemoveCol = ca<[number, number]>()
 
 export class Highlighter extends React.PureComponent<{
 	colsLength$: Observable<number>
@@ -30,7 +30,7 @@ export class Highlighter extends React.PureComponent<{
 			),
 			HLRemoveCol.$.pipe(
 				withLatestFrom(this.gRowsLength$),
-				map(([{ start, end }, gRowsLength]) => {
+				map(([[start, end], gRowsLength]) => {
 					return {
 						opacity: 0.5,
 						gridColumnStart: start,
@@ -43,7 +43,7 @@ export class Highlighter extends React.PureComponent<{
 			),
 			HLRemoveRow.$.pipe(
 				withLatestFrom(this.gColsLength$),
-				map(([{ start, end }, gColsLength]) => {
+				map(([[start, end], gColsLength]) => {
 					return {
 						opacity: 0.5,
 						gridColumnStart: 1,

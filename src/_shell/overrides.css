@@ -9,4 +9,5 @@ button {
 .react-tiny-popover-container {
 	z-index: 100;
 	overflow: visible !important;
+	transition: none !important;
 }

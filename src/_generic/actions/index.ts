@@ -1,5 +1,5 @@
 import { ca, ga, generalActionsLog$ } from '../supply/action-helpers'
-import { IItem, ITrack } from '../types/common'
+import { ITrack, ITrackOverlay } from '../types/common'
 import { Atom } from '@grammarly/focal'
 
 if (process.env.NODE_ENV !== 'production') {
@@ -25,6 +25,8 @@ export const actionsGrid = ga('grid', {
 	addBeforeRow: ca<Atom<ITrack>>(null),
 	addAfterRow: ca<Atom<ITrack>>(null),
 	removeRow: ca<Atom<ITrack>>(null),
+	openTrackSettings: ca<ITrackOverlay>(),
+	closeTrackSettings: ca(),
 })
 
 export const actionsItems = ga('items', {

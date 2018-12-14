@@ -1,3 +1,5 @@
+import { Atom, ReadOnlyAtom } from '@grammarly/focal'
+
 export interface IGridSettings {
 	isInline: boolean
 	width: string | null
@@ -39,7 +41,6 @@ export interface ITrack {
 	minmax: boolean
 	fitContent: boolean
 	repeat: string | number
-	isEditorOpen: boolean
 }
 
 export const defaultTrack: ITrack = {
@@ -50,7 +51,6 @@ export const defaultTrack: ITrack = {
 	minmax: false,
 	fitContent: false,
 	repeat: 0,
-	isEditorOpen: false,
 }
 
 export interface IItem {
@@ -79,4 +79,12 @@ export const defaultItem: IItem = {
 	justifySelf: null,
 	alignSelf: null,
 	isHidden: false,
+}
+
+export interface ITrackOverlay {
+	track$: Atom<ITrack>
+	position$: ReadOnlyAtom<[number, number]> // Start, End
+	row: boolean
+	repeat: boolean
+	rect: ClientRect | DOMRect
 }

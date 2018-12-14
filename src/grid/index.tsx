@@ -1,59 +1,16 @@
-import { Atom, F, Lens, reactiveList } from '@grammarly/focal'
+import { Atom } from '@grammarly/focal'
 import cc from 'classcat'
 import * as React from 'react'
 import { Subscription } from 'rxjs'
 import { AreaSelector } from '../area-selector'
-import { TrackSettings } from '../kit-sections/TrackSettings'
 import { actionsGrid } from '../_generic/actions'
-import { NTA } from '../_generic/supply/utils'
-import { defaultTrack, IGrid, ITrack } from '../_generic/types/common'
-import { Overlay } from '../_generic/ui/Overlay'
+import { IGrid } from '../_generic/types/common'
+import { ShowIf } from '../_generic/ui/ShowIf'
 import { Highlighter } from './Highlighter'
-import { calcLength, packTrackKeys, parseTrackKey } from './state'
+import { calcLength, createTrack, removeTrack } from './state'
 import $ from './style.scss'
-
-const trackTitle = ({ value, min, max, minmax, fitContent, repeat }: ITrack) => {
-	let title: string
-	if (minmax) {
-		title = `${NTA(min)}→${NTA(max)}`
-	} else if (fitContent) {
-		title = `fit(${NTA(value)})`
-	} else {
-		title = NTA(value)
-	}
-	if (repeat) {
-		title = `${repeat}${typeof repeat === 'number' ? '×' : ''} ${title}`
-	}
-	return title
-}
-
-const getTrackByIndex = (track$: Atom<ITrack[]>, index: number) =>
-	track$.lens(Lens.index<ITrack>(index)).lens(Lens.withDefault(defaultTrack))
-
-let counter = 1
-const createTrack = (tracks$: Atom<ITrack[]>, row: boolean, after: boolean, open?: true) => (
-	track$: Atom<ITrack>
-) => {
-	tracks$.modify((tracks) => {
-		const nextTrack = [...tracks]
-		const pos = track$.get ? tracks.indexOf(track$.get()) + (after ? 1 : 0) : tracks.length
-		nextTrack.splice(pos, 0, {
-			...defaultTrack,
-			id: `${row ? 'row' : 'col'}-${counter++}`,
-			value: row ? null : '1fr',
-			isEditorOpen: Boolean(open),
-		})
-		return nextTrack
-	})
-}
-const removeTrack = (tracks$: Atom<ITrack[]>) => (track$: Atom<ITrack>) => {
-	tracks$.modify((track) => {
-		const nextTrack = [...track]
-		const pos = track.indexOf(track$.get())
-		nextTrack.splice(pos, 1)
-		return nextTrack
-	})
-}
+import { TrackOverlay } from './TrackOverlay'
+import { Tracks } from './Tracks'
 
 type TProps = {
 	grid$: Atom<IGrid>
@@ -68,11 +25,11 @@ export class Grid extends React.PureComponent<TProps> {
 	componentDidMount() {
 		this.subs = [
 			actionsGrid.removeRow.$.subscribe(removeTrack(this.rows$)),
-			actionsGrid.addRow.$.subscribe(createTrack(this.rows$, true, false, true)),
+			actionsGrid.addRow.$.subscribe(createTrack(this.rows$, true, false)),
 			actionsGrid.addAfterRow.$.subscribe(createTrack(this.rows$, true, true)),
 			actionsGrid.addBeforeRow.$.subscribe(createTrack(this.rows$, true, false)),
 			actionsGrid.removeCol.$.subscribe(removeTrack(this.cols$)),
-			actionsGrid.addCol.$.subscribe(createTrack(this.cols$, false, false, true)),
+			actionsGrid.addCol.$.subscribe(createTrack(this.cols$, false, false)),
 			actionsGrid.addAfterCol.$.subscribe(createTrack(this.cols$, false, true)),
 			actionsGrid.addBeforeCol.$.subscribe(createTrack(this.cols$, false, false)),
 		]
@@ -82,12 +39,10 @@ export class Grid extends React.PureComponent<TProps> {
 	}
 	render() {
 		const repeat = this.props.repeat
-		const colsKeys$ = this.cols$.view(packTrackKeys)
 		const colsLength$ = this.cols$.view(calcLength)
-		const rowsKeys$ = this.rows$.view(packTrackKeys)
 		const rowsLength$ = this.rows$.view(calcLength)
 		return (
-			<F.div className={$.container}>
+			<div className={$.container}>
 				{/* <Overlay
 					isOpen$={isGridConfigOpen$}
 					position={['right', 'bottom', 'left', 'top']}
@@ -102,98 +57,34 @@ export class Grid extends React.PureComponent<TProps> {
 						</svg>
 					</F.div>
 				</Overlay> */}
-
-				{colsKeys$.view((v) =>
-					v.length ? null : (
+				<ShowIf value={colsLength$} eq={0}>
+					{() => (
 						<div
-							key="colsKeys"
 							className={cc([$.col, $.spring])}
-							style={{ gridColumnStart: 2, animationDelay: '2s' }}
+							style={{ gridColumnStart: 2, animationDelay: '1s' }}
 							onClick={actionsGrid.addCol}
 						>
 							<span>Add Column</span>
 						</div>
-					)
-				)}
-
-				{rowsKeys$.view((v) =>
-					v.length ? null : (
+					)}
+				</ShowIf>
+				<ShowIf value={rowsLength$} eq={0}>
+					{() => (
 						<div
-							key="rowsKeys"
 							className={cc([$.row, $.spring])}
 							style={{ gridRowStart: 2 }}
 							onClick={actionsGrid.addRow}
 						>
 							<span>Add Row</span>
 						</div>
-					)
-				)}
-
-				{reactiveList(colsKeys$, (key) => {
-					const [index, gridColumnStart, gridColumnEnd] = parseTrackKey(key)
-					const col$ = getTrackByIndex(this.cols$, index)
-					const title$ = col$.view(trackTitle)
-					const isOpen$ = col$.lens('isEditorOpen')
-					return (
-						<Overlay
-							key={key}
-							isOpen$={isOpen$}
-							position={['bottom']}
-							content={() => (
-								<TrackSettings
-									track$={col$}
-									start={gridColumnStart}
-									end={gridColumnEnd}
-									repeat={repeat}
-								/>
-							)}
-						>
-							<div
-								className={$.col}
-								style={{ gridColumnStart, gridColumnEnd }}
-								onClick={() => isOpen$.set(true)}
-							>
-								<F.span>{title$}</F.span>
-							</div>
-						</Overlay>
-					)
-				})}
-
-				{reactiveList(rowsKeys$, (key) => {
-					const [index, gridRowStart, gridRowEnd] = parseTrackKey(key)
-					const row$ = getTrackByIndex(this.rows$, index)
-					const title$ = row$.view(trackTitle)
-					const isOpen$ = row$.lens('isEditorOpen')
-					return (
-						<Overlay
-							key={key}
-							isOpen$={isOpen$}
-							position={['right', 'left']}
-							content={() => (
-								<TrackSettings
-									track$={row$}
-									row
-									start={gridRowStart}
-									end={gridRowEnd}
-									repeat={repeat}
-								/>
-							)}
-						>
-							<div
-								className={$.row}
-								style={{ gridRowStart, gridRowEnd }}
-								onClick={() => isOpen$.set(true)}
-							>
-								<F.span>{title$}</F.span>
-							</div>
-						</Overlay>
-					)
-				})}
-
+					)}
+				</ShowIf>
+				<Tracks tracks$={this.cols$} repeat={repeat} row={false} />
+				<Tracks tracks$={this.rows$} repeat={repeat} row={true} />
 				<AreaSelector colsLength$={colsLength$} rowsLength$={rowsLength$} />
-
 				<Highlighter colsLength$={colsLength$} rowsLength$={rowsLength$} />
-			</F.div>
+				<TrackOverlay />
+			</div>
 		)
 	}
 }

@@ -38,31 +38,29 @@
 	justify-content: center;
 	align-items: center;
 	background: #4c4a56;
+	color: #a1c7d0;
 	overflow: hidden;
+	transition-duration: 200ms;
+	transition-property: background, color;
 	span {
-		color: #a1c7d0;
 		font-size: 1.1em;
 		font-weight: 700;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
-		transition-duration: 200ms;
-		transition-property: color;
 	}
 	svg {
 		width: 2em;
 		height: 2em;
-		fill: #8ebec7;
 		transition-duration: 200ms;
 		transition-property: fill;
 	}
-	&:hover {
-		span {
-			color: #ff9b70;
-		}
-		svg {
-			fill: #ff9b70;
-		}
+	&.active {
+		background: #ffad8a;
+		color: #242424;
+	}
+	&:not(.active):hover {
+		color: #ff9b70;
 	}
 }
 
@@ -80,4 +78,12 @@
 	20% {
 		box-shadow: 0 0 0px 2em rgba(0, 0, 0, 0);
 	}
+}
+
+.highlighter {
+	grid-area: 1 / 1 / 1 / 1;
+	pointer-events: none;
+	opacity: 0;
+	transition-duration: 120ms;
+	transition-property: opacity;
 }

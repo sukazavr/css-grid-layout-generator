@@ -1,7 +1,7 @@
-import { Atom, Lens } from '@grammarly/focal'
+import { Atom, Lens, ReadOnlyAtom } from '@grammarly/focal'
 import * as React from 'react'
 import { HLAddCol, HLAddRow, HLLeave, HLRemoveCol, HLRemoveRow } from '../grid/Highlighter'
-import { tipMinmax, tipRepeat, tipFitContent } from '../tips'
+import { tipFitContent, tipMinmax, tipRepeat } from '../tips'
 import { actionsGrid } from '../_generic/actions'
 import { ITrack } from '../_generic/types/common'
 import { Btn } from '../_generic/ui/Btn'
@@ -14,13 +14,12 @@ import { Size } from './Size'
 
 type TProps = {
 	track$: Atom<ITrack>
-	row?: true
-	start: number
-	end: number
+	position$: ReadOnlyAtom<[number, number]>
+	row: boolean
 	repeat: boolean
 }
 
-export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
+export const TrackSettings = ({ track$, position$, row, repeat }: TProps) => {
 	const value$ = track$.lens('value')
 	const min$ = track$.lens('min')
 	const max$ = track$.lens('max')
@@ -40,21 +39,21 @@ export const TrackSettings = ({ track$, row, start, end, repeat }: TProps) => {
 						<Btn
 							ico={row ? 'addBeforeRow' : 'addBeforeCol'}
 							transparent
-							onMouseOver={HLAdd(start)}
+							onMouseOver={() => HLAdd(position$.get()[0])}
 							onMouseOut={HLLeave}
 							onClick={addBefore(track$)}
 						/>
 						<Btn
 							ico={row ? 'removeRow' : 'removeCol'}
 							transparent
-							onMouseOver={HLRemove({ start, end })}
+							onMouseOver={() => HLRemove(position$.get())}
 							onMouseOut={HLLeave}
 							onClick={remove(track$)}
 						/>
 						<Btn
 							ico={row ? 'addAfterRow' : 'addAfterCol'}
 							transparent
-							onMouseOver={HLAdd(end)}
+							onMouseOver={() => HLAdd(position$.get()[1])}
 							onMouseOut={HLLeave}
 							onClick={addAfter(track$)}
 						/>

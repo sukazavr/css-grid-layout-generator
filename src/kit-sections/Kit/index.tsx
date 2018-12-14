@@ -21,21 +21,18 @@ type TControlProps = {
 export const Control = ({ children, label, tip }: TControlProps) => {
 	let tipCtrl = null
 	if (tip) {
+		const isOpen$ = Atom.create(false)
 		const props = {
+			isOpen$,
 			content: tip,
 			stopPropagation: true,
 			position: ['top', 'bottom'] as any,
-			isOpen$: Atom.create(false),
+			close: () => isOpen$.set(false),
 		}
 		tipCtrl = (
-			<F.div {...classes($.tip, props.isOpen$.view((isOpen) => isOpen && $.active))}>
+			<F.div {...classes($.tip, isOpen$.view((v) => v && $.active))}>
 				<Overlay {...props}>
-					<Btn
-						narrow
-						transparent
-						ico="question"
-						onClick={() => props.isOpen$.modify((v) => !v)}
-					/>
+					<Btn narrow transparent ico="question" onClick={() => isOpen$.modify((v) => !v)} />
 				</Overlay>
 			</F.div>
 		)

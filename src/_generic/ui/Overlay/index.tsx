@@ -1,26 +1,31 @@
-import { Atom } from '@grammarly/focal'
 import * as React from 'react'
-import Popover, { ArrowContainer, Position } from 'react-tiny-popover'
+import Popover, { Align, ArrowContainer, Position } from 'react-tiny-popover'
+import { Observable } from 'rxjs'
+import { Btn } from '../Btn'
 import { MapElement } from '../MapElement'
 import $ from './style.scss'
-import { Btn } from '../Btn'
 
 type TProps = {
-	isOpen$: Atom<boolean>
-	position: Position[]
-	content: () => React.ReactNode
-	stopPropagation?: boolean
+	isOpen$: Observable<boolean>
 	children: JSX.Element
+	content: () => React.ReactNode
+	align?: Align
+	withArrow?: boolean
+	position?: Position | Position[]
+	stopPropagation?: boolean
+	close?: () => void
 }
 
 export const Overlay = ({
 	isOpen$,
-	position,
-	content,
 	children,
+	content,
+	align = 'center',
+	withArrow = true,
+	position,
 	stopPropagation = false,
+	close,
 }: TProps) => {
-	const close = () => isOpen$.set(false)
 	let onContainerClick: ((e: React.MouseEvent<HTMLDivElement>) => void) | undefined
 	if (stopPropagation) {
 		onContainerClick = (e) => {
@@ -33,27 +38,37 @@ export const Overlay = ({
 				<Popover
 					isOpen={isOpen}
 					position={position}
-					align="center"
-					transitionDuration={0.2}
-					padding={2}
+					align={align}
+					transitionDuration={0.000000000001}
+					padding={withArrow ? 2 : 8}
 					windowBorderPadding={16}
 					onClickOutside={close}
-					content={({ position: pos, targetRect, popoverRect }) => (
-						<ArrowContainer
-							position={pos}
-							targetRect={targetRect}
-							popoverRect={popoverRect}
-							arrowColor="#4c4a56"
-							arrowSize={10}
-						>
+					content={({ position: pos, targetRect, popoverRect }) => {
+						const overlay = (
 							<div className={$.overlay} onClick={onContainerClick}>
-								<div className={$.close}>
-									<Btn transparent ico="close" onClick={close} />
-								</div>
+								{Boolean(close) && (
+									<div className={$.close}>
+										<Btn transparent ico="close" onClick={close} />
+									</div>
+								)}
 								{content()}
 							</div>
-						</ArrowContainer>
-					)}
+						)
+						return withArrow ? (
+							<ArrowContainer
+								position={pos}
+								targetRect={targetRect}
+								popoverRect={popoverRect}
+								arrowColor="#4c4a56"
+								arrowSize={10}
+								arrowStyle={{ zIndex: 1 }}
+							>
+								{overlay}
+							</ArrowContainer>
+						) : (
+							overlay
+						)
+					}}
 				>
 					{children}
 				</Popover>
