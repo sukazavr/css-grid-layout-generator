@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.5.0...v1.6.0) (2018-12-14)
+
+
+### Bug Fixes
+
+* **tipContainerFlexGrow:** change text ([acd18d4](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/acd18d4))
+
+
+### Features
+
+* **Item:** set width and height ([21cdee5](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/21cdee5))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.4.0...v1.5.0) (2018-12-12)
 
