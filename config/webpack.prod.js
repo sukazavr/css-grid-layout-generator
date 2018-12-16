@@ -1,40 +1,24 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import CrittersPlugin from 'critters-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin'
+import HtmlWebpackExcludeAssetsPlugin from 'html-webpack-exclude-assets-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
-import path from 'path'
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import ScriptExtHtmlPlugin from 'script-ext-html-webpack-plugin'
+import SuppressChunksPlugin from 'suppress-chunks-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 import webpack from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import merge from 'webpack-merge'
-import { dist, indexHtml, publicAssets, scssModules, src } from './paths'
+import { indexHtml, publicAssets, scssModules, src } from './paths'
 import common from './webpack.common'
-
-const sep = path.sep === '\\' ? '\\' + path.sep : path.sep
-
-const vendorList = [
-	`@blueprintjs${sep}core`,
-	`@grammarly${sep}focal`,
-	'classcat',
-	'clipboard-copy',
-	'react(-dom)?',
-	'react-beautiful-dnd',
-	'react-portal',
-	'react-tiny-popover',
-	'rxjs(-compat)?',
-].join('|')
-
-const testVendor = new RegExp(`${sep}node_modules${sep}(${vendorList})${sep}`)
 
 export default merge(common, {
 	mode: 'production',
 	output: {
-		path: dist,
-		filename: '[name].[contenthash].bundle.js',
-		chunkFilename: '[name].[contenthash].chunk.js',
+		filename: '[name].[chunkhash:5].js',
+		chunkFilename: '[name].[chunkhash:5].js',
 	},
 	stats: {
 		hash: true,
@@ -46,70 +30,74 @@ export default merge(common, {
 		children: false,
 	},
 	optimization: {
-		runtimeChunk: 'single',
-		splitChunks: {
-			minChunks: 2,
-			cacheGroups: {
-				default: false,
-				vendor: {
-					test: testVendor,
-					name: 'vendor',
-					chunks: 'initial',
-					minChunks: 1,
-				},
-			},
-		},
 		minimizer: [
-			new UglifyJSPlugin({
-				parallel: true,
-				uglifyOptions: {
+			new TerserPlugin({
+				terserOptions: {
 					compress: {
-						drop_console: true,
+						inline: 1,
+					},
+					mangle: {
+						safari10: true,
 					},
 					output: {
-						comments: false,
+						safari10: true,
 					},
 				},
 			}),
-			new OptimizeCSSAssetsPlugin(),
 		],
 	},
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': "'production'",
 		}),
+		new webpack.optimize.SplitChunksPlugin({}),
 		new MiniCssExtractPlugin({
-			filename: '[name].[contenthash].bundle.css',
-			chunkFilename: '[name].[contenthash].chunk.css',
+			filename: '[name].[contenthash:5].css',
+			chunkFilename: '[name].[contenthash:5].css',
+		}),
+		new OptimizeCssAssetsPlugin({
+			cssProcessorOptions: {
+				postcssReduceIdents: {
+					counterStyle: false,
+					gridTemplate: false,
+					keyframes: false,
+				},
+			},
 		}),
 		new ForkTsCheckerWebpackPlugin(),
 		new CopyWebpackPlugin([publicAssets]),
 		new HtmlWebpackPlugin({
-			inject: true,
 			template: indexHtml,
+			excludeAssets: [/prerender\..+\.js$/],
 			minify: {
 				removeComments: true,
-				collapseWhitespace: true,
-				removeRedundantAttributes: true,
 				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
 				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true,
+				collapseWhitespace: true,
+				removeEmptyAttributes: true,
+				removeRedundantAttributes: true,
+				removeScriptTypeAttributes: true,
+				removeStyleLinkTypeAttributes: true,
 			},
 		}),
-		new InlineManifestWebpackPlugin(),
-		new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				{
-					type: 'css',
-					path: 'manifest.json',
-					attributes: { rel: 'manifest' },
-				},
-			],
-			append: true,
+		new HtmlWebpackExcludeAssetsPlugin(),
+		new SuppressChunksPlugin(['prerender']),
+		new ScriptExtHtmlPlugin({
+			inline: ['logic'],
+		}),
+		new CrittersPlugin({
+			// use <link rel="stylesheet" media="not x" onload="this.media='all'"> hack to load async css:
+			preload: 'media',
+			// inline all styles from any stylesheet below this size:
+			inlineThreshold: 2000,
+			// don't bother lazy-loading non-critical stylesheets below this size, just inline the non-critical styles too:
+			minimumExternalSize: 4000,
+			// don't emit <noscript> external stylesheet links since the app fundamentally requires JS anyway:
+			noscriptFallback: false,
+			// inline the tiny data URL fonts we have for the intro screen:
+			inlineFonts: true,
+			// (and don't lazy load them):
+			preloadFonts: false,
 		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
@@ -120,6 +108,14 @@ export default merge(common, {
 	module: {
 		rules: [
 			{
+				test: indexHtml,
+				loader: 'prerender-loader',
+				options: {
+					string: true,
+					entry: 'src/first-interaction/prerender.ts',
+				},
+			},
+			{
 				test: /\.tsx?$/,
 				include: src,
 				loader: 'awesome-typescript-loader',
@@ -129,9 +125,7 @@ export default merge(common, {
 					babelCore: '@babel/core',
 					babelOptions: {
 						babelrc: false,
-						presets: [
-							['@babel/preset-env', { useBuiltIns: 'usage', modules: false, debug: true }],
-						],
+						presets: [['@babel/preset-env', { useBuiltIns: 'usage', modules: false }]],
 						plugins: ['@babel/plugin-syntax-dynamic-import'],
 					},
 				},
@@ -149,7 +143,6 @@ export default merge(common, {
 						options: {
 							url: false,
 							import: false,
-							sourceMap: true,
 							modules: true,
 							camelCase: true,
 							importLoaders: 2,

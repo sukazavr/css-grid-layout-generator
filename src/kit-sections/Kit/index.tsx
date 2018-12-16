@@ -1,10 +1,10 @@
 import { Atom, classes, F } from '@grammarly/focal'
 import * as React from 'react'
+import { Observable } from 'rxjs'
 import { Btn } from '../../_generic/ui/Btn'
 import { Overlay } from '../../_generic/ui/Overlay'
-import $ from './style.scss'
-import { Observable } from 'rxjs'
 import { ShowIf } from '../../_generic/ui/ShowIf'
+import $ from './style.scss'
 
 type TSectionProps = {
 	title?: string

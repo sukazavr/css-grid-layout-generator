@@ -31,7 +31,6 @@
 - Other
 	- [x] Tips everywhere as (?) button
 	- [ ] Drag & Drop for columns and rows
-	- [ ] Solution for small screen devices
 	- [ ] Support for touch screen devices
 	- [ ] Persist grid settings (Local Storage)
 	- [ ] Button "Reset Grid Settings"

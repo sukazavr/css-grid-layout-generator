@@ -1,9 +1,9 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import StyleLintPlugin from 'stylelint-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import StyleLintPlugin from 'stylelint-webpack-plugin'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
-import { indexHtml, scssModules, src, publicAssets } from './paths'
+import { indexHtml, publicAssets, scssModules, src } from './paths'
 import common from './webpack.common'
 
 export default merge(common, {
@@ -38,19 +38,16 @@ export default merge(common, {
 			syntax: 'scss',
 		}),
 		new HtmlWebpackPlugin({
-			inject: true,
 			template: indexHtml,
 			minify: {
 				removeComments: true,
-				collapseWhitespace: true,
-				removeRedundantAttributes: true,
 				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
 				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true,
+				collapseWhitespace: true,
+				removeEmptyAttributes: true,
+				removeRedundantAttributes: true,
+				removeScriptTypeAttributes: true,
+				removeStyleLinkTypeAttributes: true,
 			},
 		}),
 	],

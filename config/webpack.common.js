@@ -1,6 +1,8 @@
-import webpack from 'webpack'
 import path from 'path'
-import { root, entryApp, pathPackage } from './paths'
+import webpack from 'webpack'
+import { prerender, logic, dist, pathPackage, root } from './paths'
+
+const VERSION = require(pathPackage).version
 
 export default {
 	context: root,
@@ -8,10 +10,21 @@ export default {
 	resolve: {
 		extensions: ['.js', '.ts', '.tsx', '.css', '.scss'],
 	},
-	entry: entryApp,
+	entry: {
+		prerender,
+		logic,
+	},
+	output: {
+		filename: '[name].js',
+		path: dist,
+		publicPath: '/',
+		globalObject: 'self',
+	},
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env.VERSION': JSON.stringify(require(pathPackage).version),
+			// We set node.process=false later in this config.
+			// Here we make sure if (process && process.foo) still works:
+			process: JSON.stringify({ env: { VERSION } }),
 		}),
 		new webpack.NormalModuleReplacementPlugin(
 			/.*\/generated\/iconSvgPaths.*/,
@@ -25,6 +38,8 @@ export default {
 		console: false,
 		// Keep global, it's just an alias of window and used by many third party modules:
 		global: true,
+		// Turn off process to avoid bundling a nextTick implementation:
+		process: false,
 		// Inline __filename and __dirname values:
 		__filename: 'mock',
 		__dirname: 'mock',

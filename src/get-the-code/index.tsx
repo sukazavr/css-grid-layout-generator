@@ -8,13 +8,11 @@ import { Btn } from '../_generic/ui/Btn'
 import $ from './style.scss'
 
 const modalProps = {
-	title: 'Your freshly baked code',
 	autoFocus: true,
 	canEscapeKeyClose: true,
 	canOutsideClickClose: true,
 	enforceFocus: true,
 	usePortal: true,
-	isCloseButtonShown: false,
 	style: {
 		width: '90%',
 		minWidth: '600px',

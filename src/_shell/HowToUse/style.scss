@@ -1,0 +1,29 @@
+@import 'utils';
+
+.btn {
+	@extend %tappable;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 5.2em;
+	margin-top: 2em;
+	padding: 0.6em 0.4em;
+	font-size: 0.7em;
+	background: linear-gradient(to bottom, #38322c 0%, #2d251d 100%);
+	box-shadow: inset 0 0 0 1px rgba(179, 137, 70, 0.56);
+	color: #b58a46;
+	border-radius: 0.6em;
+	transition-duration: 120ms;
+	transition-property: box-shadow, letter-spacing, transform;
+	span {
+		display: block;
+		margin-bottom: 0.2em;
+		font-size: 1.25em;
+		text-align: center;
+	}
+	&:hover {
+		letter-spacing: 0.1em;
+		transform: translateY(-0.2em);
+		box-shadow: inset 0 0 0 1px rgb(179, 137, 70), 0 0 6em 0px rgba(179, 137, 70, 0.4);
+	}
+}

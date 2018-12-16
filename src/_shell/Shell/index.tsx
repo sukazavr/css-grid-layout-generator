@@ -10,7 +10,9 @@ import { GridSettings } from '../../kit-sections/GridSettings'
 import { ItemSettings } from '../../kit-sections/ItemSettings'
 import { Preview } from '../../preview'
 import { actionsItems } from '../../_generic/actions'
+import { Logo } from '../../_generic/ui/Logo'
 import { ShowIf } from '../../_generic/ui/ShowIf'
+import { HowToUse } from '../HowToUse'
 import $ from './style.scss'
 
 enum EGridPanel {
@@ -43,19 +45,12 @@ export const Shell = () => {
 	return (
 		<div className={$.container}>
 			<div className={$.sideBar}>
-				<svg
-					className={$.logo}
-					role="img"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<title>CSS Grid Layout Generator</title>
-					<path d="M10,0.531c-5.229,0-9.469,4.239-9.469,9.469S4.771,19.469,10,19.469s9.469-4.239,9.469-9.469S15.229,0.531,10,0.531 M11.128,18.525c-0.371,0.049-0.745,0.082-1.128,0.082c-4.754,0-8.608-3.854-8.608-8.607S5.246,1.392,10,1.392c0.383,0,0.758,0.034,1.128,0.083c1.976,2.269,3.176,5.281,3.176,8.525S13.103,16.257,11.128,18.525" />
-				</svg>
+				<Logo />
 				<div className={$.ver}>v{process.env.VERSION || 0}</div>
 				<div className={$.code}>
 					<GetTheCode />
 				</div>
+				<HowToUse />
 				<a
 					className={$.ghLink}
 					href="https://github.com/sukazavr/css-grid-layout-generator"
