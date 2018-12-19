@@ -4,10 +4,10 @@ const gtag = (window.gtag = (...args: any[]) => {
 })
 
 if (process.env.NODE_ENV === 'production') {
-	document.body.insertAdjacentHTML(
-		'beforeend',
-		'<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129342832-1"></script>'
-	)
+	const script = document.createElement('script')
+	script.async = true
+	script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-129342832-1'
+	document.getElementsByTagName('head')[0].appendChild(script)
 	gtag('js', new Date())
 	gtag('config', 'UA-129342832-1')
 }
