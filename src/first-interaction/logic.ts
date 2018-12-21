@@ -1,15 +1,10 @@
-window.dataLayer = window.dataLayer || []
-const gtag = (window.gtag = (...args: any[]) => {
-	window.dataLayer.push(args)
-})
-
 if (process.env.NODE_ENV === 'production') {
-	const script = document.createElement('script')
-	script.async = true
-	script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-129342832-1'
-	document.getElementsByTagName('head')[0].appendChild(script)
-	gtag('js', new Date())
-	gtag('config', 'UA-129342832-1')
+	window.dataLayer = window.dataLayer || []
+	window.gtag = function() {
+		window.dataLayer.push(arguments)
+	}
+	window.gtag('js', new Date())
+	window.gtag('config', 'UA-129342832-1')
 }
 
 let isAppMounted = false
