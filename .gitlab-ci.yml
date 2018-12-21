@@ -13,32 +13,20 @@
       - $CI_COMMIT_MESSAGE =~ /^chore\(release\):.*/
 
 stages:
-  - version
   - build
   - deploy
-
-version:
-  stage: version
-  image: node:10
-  script:
-    - git config --global user.name "Runner $CI_RUNNER_DESCRIPTION"
-    - git config --global user.email "$GITLAB_USER_EMAIL"
-    - npm i -g standard-version
-    - standard-version --no-verify
-    - git push --follow-tags $CI_TOKENIZED_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME
-  only:
-    - master
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /^chore\(release\):.*/
 
 build:
   <<: *except-ci
   stage: build
   image: node:10
   script:
+    - git config --global user.name "Runner $CI_RUNNER_DESCRIPTION"
+    - git config --global user.email "$GITLAB_USER_EMAIL"
     - npm install
+    - npm run release
     - npm run build:app
+    - git push --follow-tags $CI_TOKENIZED_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME
   cache:
     key: '$CI_BUILD_REPO'
     paths:
