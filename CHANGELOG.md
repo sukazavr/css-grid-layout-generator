@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.7.2"></a>
+## [1.7.2](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.7.1...v1.7.2) (2018-12-21)
+
+
+### Bug Fixes
+
+* gtag ([25cbbec](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/25cbbec))
+
+
+
 <a name="1.7.1"></a>
 ## [1.7.1](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.7.0...v1.7.1) (2018-12-19)
 
