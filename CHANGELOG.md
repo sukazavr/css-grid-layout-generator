@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.7.2...v1.8.0) (2018-12-23)
+
+
+### Bug Fixes
+
+* **CI:** except release ([cdc6d6a](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/cdc6d6a))
+
+
+### Features
+
+* **Export Code:** add syntax highlight ([9822786](https://gitlab.com/sukazavr/css-grid-layout-generator/commit/9822786))
+
+
+
 <a name="1.7.2"></a>
 ## [1.7.2](https://gitlab.com/sukazavr/css-grid-layout-generator/compare/v1.7.1...v1.7.2) (2018-12-21)
 
