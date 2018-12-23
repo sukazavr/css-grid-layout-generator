@@ -15,7 +15,7 @@
 	- [x] Export HTML as JSX
 	- [x] Export CSS as Styled Components
 	- [x] Export class names as CSS Modules
-	- [ ] Syntax highlight
+	- [x] Syntax highlight
 	- [ ] Add prefixes to grid names (to avoid potential class conflicts)
 	- [ ] Button "Create CodePen"
 	- [ ] Save and restore grid settings feature

@@ -5,7 +5,15 @@ import { itemsReversed$ } from '../items/state'
 import { actionsItems } from '../_generic/actions'
 import { ITrack } from '../_generic/types/common'
 import { NTA } from '../_generic/supply/utils'
+import $ from '../get-the-code/style.scss'
 
+const span = (className: string) => (value: string) => `<span class="${className}">${value}</span>`
+const line = span($.line)
+const hl1 = span($.hl1)
+const hl2 = span($.hl2)
+const hl3 = span($.hl3)
+
+const DIV = hl1('div')
 const CONTAINER_NAME = 'container'
 
 const trackSize = ({ value, min, max, minmax, fitContent, repeat }: ITrack) => {
@@ -141,51 +149,8 @@ const itemsCSS$ = itemsReversed$.pipe(
 	shareReplay(1)
 )
 
-export const css$ = combineLatest(containerCSS$, itemsCSS$, (containerCSS, itemsCSS) =>
-	[
-		toCSS(CONTAINER_NAME, containerCSS),
-		...Object.entries(itemsCSS).map(([name, itemCSS]) => toCSS(name, itemCSS)),
-	].join('\n\n')
-)
-
-export const styledComponents$ = combineLatest(containerCSS$, itemsCSS$, (containerCSS, itemsCSS) =>
-	[
-		"import styled from 'styled-components'",
-		toStyledComponent(CONTAINER_NAME, containerCSS),
-		...Object.entries(itemsCSS).map(([name, itemCSS]) => toStyledComponent(name, itemCSS)),
-	].join('\n\n')
-)
-
-export const html$ = itemsReversed$.map((items) => {
-	return [
-		`<div class="${CONTAINER_NAME}">`,
-		...items.map(({ name }) => `\t<div class="${name}"></div>`),
-		'</div>',
-	].join('\n')
-})
-
-export const jsxPlain$ = itemsReversed$.map((items) => {
-	return [
-		`<div className="${CONTAINER_NAME}">`,
-		...items.map(({ name }) => `\t<div className="${name}"></div>`),
-		'</div>',
-	].join('\n')
-})
-
-export const jsxCSSModules$ = itemsReversed$.map((items) => {
-	return [
-		"import $ from './style.css'",
-		'',
-		`<div className={$.${CONTAINER_NAME}}>`,
-		...items.map(({ name }) => {
-			const className = name.includes('-') ? `['${name}']` : `.${name}`
-			return `\t<div className={$${className}}></div>`
-		}),
-		'</div>',
-	].join('\n')
-})
-
 export const cssHighlighter$: Observable<string> = merge(
+	actionsItems.dropHighlight.$.map(() => ''),
 	actionsItems.highlight.$.map(
 		(name) => `.${name} {
 	z-index: 99;
@@ -193,14 +158,20 @@ export const cssHighlighter$: Observable<string> = merge(
 		inset 0px 0px 0px 2px #fff,
 		inset 0px 0px 1em 2px #000;
 	}`
-	),
-	actionsItems.dropHighlight.$.map(() => '')
+	)
 ).pipe(
 	startWith(''),
 	shareReplay(1)
 )
 
-const toCSS = (className: string, rules: TClass) => {
+export const cssPure$ = combineLatest(containerCSS$, itemsCSS$, (containerCSS, itemsCSS) =>
+	[
+		toPureCSS(CONTAINER_NAME, containerCSS),
+		...Object.entries(itemsCSS).map(([name, itemCSS]) => toPureCSS(name, itemCSS)),
+	].join('\n\n')
+)
+
+const toPureCSS = (className: string, rules: TClass) => {
 	return [
 		`.${className} {`,
 		...Object.entries(rules).map(([name, rule]) => `\t${name}: ${rule};`),
@@ -208,12 +179,85 @@ const toCSS = (className: string, rules: TClass) => {
 	].join('\n')
 }
 
+export const css$ = combineLatest(containerCSS$, itemsCSS$, (containerCSS, itemsCSS) =>
+	[
+		...toCSS(CONTAINER_NAME, containerCSS),
+		...Object.entries(itemsCSS).reduce<string[]>(
+			(res, [name, itemCSS]) => res.concat('', toCSS(name, itemCSS)),
+			[]
+		),
+	]
+		.map(line)
+		.join('\n')
+)
+
+export const styledComponents$ = combineLatest(containerCSS$, itemsCSS$, (containerCSS, itemsCSS) =>
+	[
+		`${hl2('import')} styled ${hl2('from')} ${hl3("'styled-components'")}`,
+		'',
+		...toStyledComponent(CONTAINER_NAME, containerCSS),
+		...Object.entries(itemsCSS).reduce<string[]>(
+			(res, [name, itemCSS]) => res.concat('', toStyledComponent(name, itemCSS)),
+			[]
+		),
+	]
+		.map(line)
+		.join('\n')
+)
+
+export const html$ = itemsReversed$.map((items) => {
+	return [
+		`&lt;${DIV} class=${hl3(`&quot;${CONTAINER_NAME}&quot;`)}&gt;`,
+		...items.map(
+			({ name }) => `\t&lt;${DIV} class=${hl3(`&quot;${name}&quot;`)}&gt;&lt;/${DIV}&gt;`
+		),
+		`&lt;/${DIV}&gt;`,
+	]
+		.map(line)
+		.join('\n')
+})
+
+export const jsxPlain$ = itemsReversed$.map((items) => {
+	return [
+		`&lt;${DIV} className=${hl3(`&quot;${CONTAINER_NAME}&quot;`)}&gt;`,
+		...items.map(
+			({ name }) => `\t&lt;${DIV} className=${hl3(`&quot;${name}&quot;`)}&gt;&lt;/${DIV}&gt;`
+		),
+		`&lt;/${DIV}&gt;`,
+	]
+		.map(line)
+		.join('\n')
+})
+
+export const jsxCSSModules$ = itemsReversed$.map((items) => {
+	return [
+		`${hl2('import')} $ ${hl2('from')} ${hl3("'./style.css'")}`,
+		'',
+		`&lt;${DIV} className={$.${hl3(CONTAINER_NAME)}}&gt;`,
+		...items.map(({ name }) => {
+			const className = name.includes('-') ? `[${hl3(`'${name}'`)}]` : `.${hl3(name)}`
+			return `\t&lt;${DIV} className={$${className}}&gt;&lt;/${DIV}&gt;`
+		}),
+		`&lt;/${DIV}&gt;`,
+	]
+		.map(line)
+		.join('\n')
+})
+
+const toCSS = (className: string, rules: TClass) => {
+	return [
+		`.${hl1(className)} ${hl2('{')}`,
+		...Object.entries(rules).map(([name, rule]) => `\t${name}: ${hl3(rule)};`),
+		hl2('}'),
+	]
+}
+
 const toStyledComponent = (className: string, rules: TClass) => {
 	return [
-		`const ${toPascalCase(className)} = styled.div\``,
-		...Object.entries(rules).map(([name, rule]) => `\t${name}: ${rule};`),
-		'`',
-	].join('\n')
+		`${hl2('const')} ${hl1(toPascalCase(className))} = styled.div${hl3('`')}`,
+		...Object.entries(rules).map(([name, rule]) => `\t${name}: ${hl3(rule)};`),
+		hl3('`'),
+	]
 }
 
 const toPascalCase = (className: string) => {

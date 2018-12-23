@@ -6,7 +6,7 @@ import { itemsReversed$, selectedID$ } from '../items/state'
 import { actionsItems } from '../_generic/actions'
 import { defaultItem } from '../_generic/types/common'
 import { ReactiveList } from '../_generic/ui/ReactiveList'
-import { css$, cssHighlighter$ } from './state'
+import { cssPure$, cssHighlighter$ } from './state'
 import $ from './style.scss'
 
 const CSS = lift(({ css, cssHighlighter }: { css: string; cssHighlighter: string }) => (
@@ -20,7 +20,7 @@ const items$ = itemsReversed$.view((items) => items.filter((item) => !item.isHid
 export const Preview = () => {
 	return (
 		<>
-			<CSS css={css$} cssHighlighter={cssHighlighter$} />
+			<CSS css={cssPure$} cssHighlighter={cssHighlighter$} />
 			<F.div {...classes($.preview, isGrowClass$)}>
 				<F.div className={cc(['container', $.container])}>
 					<ReactiveList items={items$} defaultItem={defaultItem}>

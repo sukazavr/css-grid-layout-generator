@@ -1,10 +1,11 @@
 import { Button, Classes, Dialog, H4, Tab, Tabs } from '@blueprintjs/core'
-import { lift } from '@grammarly/focal'
 import clipboardCopy from 'clipboard-copy'
 import * as React from 'react'
+import { Observable } from 'rxjs'
 import { css$, html$, jsxCSSModules$, jsxPlain$, styledComponents$ } from '../preview/state'
 import { actionsShell } from '../_generic/actions'
 import { Btn } from '../_generic/ui/Btn'
+import { MapElement } from '../_generic/ui/MapElement'
 import $ from './style.scss'
 
 const modalProps = {
@@ -17,6 +18,7 @@ const modalProps = {
 		width: '90%',
 		minWidth: '600px',
 		maxWidth: '1100px',
+		minHeight: '82vh',
 	},
 }
 
@@ -61,10 +63,10 @@ export class GetTheCode extends React.PureComponent<{}, { isOpen: boolean }> {
 const General = () => (
 	<div className={$.split}>
 		<div style={{ flexGrow: 2 }}>
-			<Code lang="css" code={css$} />
+			<Code lang="css" code$={css$} />
 		</div>
 		<div style={{ flexGrow: 1 }}>
-			<Code lang="html" code={html$} />
+			<Code lang="html" code$={html$} />
 		</div>
 	</div>
 )
@@ -72,31 +74,41 @@ const General = () => (
 const JSX = () => (
 	<div className={$.split}>
 		<div style={{ flexGrow: 1 }}>
-			<Code lang="Plain" code={jsxPlain$} />
+			<Code lang="Plain" code$={jsxPlain$} />
 		</div>
 		<div style={{ flexGrow: 1 }}>
-			<Code lang="CSS Modules" code={jsxCSSModules$} />
+			<Code lang="CSS Modules" code$={jsxCSSModules$} />
 		</div>
 	</div>
 )
 
-const StyledComponents = () => <Code lang="Styled Components" code={styledComponents$} />
+const StyledComponents = () => <Code lang="Styled Components" code$={styledComponents$} />
 
-const Code = lift(({ lang, code }: { lang: string; code: string }) => {
-	return (
-		<>
-			<H4>{lang.toUpperCase()}</H4>
-			<Btn
-				ico="copy"
-				icoFill="#fff"
-				icoAfterLabel
-				narrow
-				label="Copy To Clipboard"
-				onClick={() => clipboardCopy(code)}
-			/>
-			<pre className={Classes.CODE_BLOCK} style={{ tabSize: 4 }}>
-				{code}
-			</pre>
-		</>
-	)
-})
+class Code extends React.PureComponent<{ lang: string; code$: Observable<string> }> {
+	private ref = React.createRef<HTMLPreElement>()
+	private toClipboard = () => {
+		const el = this.ref.current
+		const code = el && (el.textContent || el.innerText)
+		if (code) {
+			clipboardCopy(code)
+		}
+	}
+	render() {
+		return (
+			<>
+				<H4>{this.props.lang.toUpperCase()}</H4>
+				<Btn
+					ico="copy"
+					icoFill="#fff"
+					icoAfterLabel
+					narrow
+					label="Copy To Clipboard"
+					onClick={this.toClipboard}
+				/>
+				<MapElement stream={this.props.code$}>
+					{(__html) => <pre ref={this.ref} className={$.code} dangerouslySetInnerHTML={{ __html }} />}
+				</MapElement>
+			</>
+		)
+	}
+}

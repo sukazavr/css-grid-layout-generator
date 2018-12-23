@@ -1,6 +1,47 @@
+@import 'utils';
+
 .split {
 	display: flex;
 	> div + div {
 		margin-left: 2em;
+	}
+}
+
+.code {
+	position: relative;
+	text-transform: none;
+	font-family: $font-mono-stack;
+	display: block;
+	margin: 1em 0;
+	border-radius: 0.6em;
+	padding: 1.2em 1em 1.2em 4em;
+	line-height: 1.3;
+	word-break: break-all;
+	word-wrap: break-word;
+	box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.4);
+	background: rgba(16, 22, 26, 0.3);
+	color: #90a29c;
+	tab-size: 4;
+	counter-reset: line;
+	.line:before {
+		display: inline-block;
+		position: absolute;
+		left: 0;
+		width: 2em;
+		padding: 0 0.5em;
+		color: #4a5161;
+		border-right: 1px solid #3b3f48;
+		text-align: right;
+		counter-increment: line;
+		content: counter(line);
+	}
+	.hl1 {
+		color: #fff;
+	}
+	.hl2 {
+		color: #e75eff;
+	}
+	.hl3 {
+		color: #65d81c;
 	}
 }

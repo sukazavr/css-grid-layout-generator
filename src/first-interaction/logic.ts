@@ -1,5 +1,6 @@
 if (process.env.NODE_ENV === 'production') {
 	window.dataLayer = window.dataLayer || []
+	// tslint:disable-next-line:only-arrow-functions
 	window.gtag = function() {
 		window.dataLayer.push(arguments)
 	}
