@@ -1,7 +1,12 @@
-import { Atom, classes, F } from '@grammarly/focal'
 import cc from 'classcat'
 import * as React from 'react'
 import { merge } from 'rxjs'
+
+import { Atom, classes, F } from '@grammarly/focal'
+
+import { actionsItems } from '../../_generic/actions'
+import { Logo } from '../../_generic/ui/Logo'
+import { ShowIf } from '../../_generic/ui/ShowIf'
 import { GetTheCode } from '../../get-the-code'
 import { Grid } from '../../grid'
 import { explicitGrid$, implicitGrid$ } from '../../grid/state'
@@ -9,9 +14,7 @@ import { Items } from '../../items'
 import { GridSettings } from '../../kit-sections/GridSettings'
 import { ItemSettings } from '../../kit-sections/ItemSettings'
 import { Preview } from '../../preview'
-import { actionsItems } from '../../_generic/actions'
-import { Logo } from '../../_generic/ui/Logo'
-import { ShowIf } from '../../_generic/ui/ShowIf'
+import { ButtonDego } from '../ButtonDego'
 import { HowToUse } from '../HowToUse'
 import $ from './style.scss'
 
@@ -41,7 +44,7 @@ merge(actionsItems.add.$, actionsItems.select.$).subscribe(() => {
 })
 
 // tslint:disable:max-line-length
-export const Shell = () => {
+export const Shell: React.FC = () => {
 	return (
 		<div className={$.container}>
 			<div className={$.sideBar}>
@@ -51,6 +54,7 @@ export const Shell = () => {
 					<GetTheCode />
 				</div>
 				<HowToUse />
+				<ButtonDego />
 				<a
 					className={$.ghLink}
 					href="https://github.com/sukazavr/css-grid-layout-generator"

@@ -20,10 +20,12 @@ declare module '*.scss' {
 	export default classes
 }
 
+// tslint:disable-next-line:interface-name
 declare interface NodeModule {
 	hot: any
 }
 
+// tslint:disable-next-line:interface-name
 declare interface Window {
 	dataLayer: any[]
 	gtag: (...args: any[]) => void
